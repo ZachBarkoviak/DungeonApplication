@@ -21,6 +21,7 @@ namespace Instance
 
                 if (encounter == ConsoleKey.E)
                 {
+                    encounterExit = false;
                     Console.Clear();
                     Console.WriteLine("\nYou encountered a (Insert Monster Here)\n");
                     //worldExit = Encounter();
