@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DungeonLibrary;
 
 namespace Instance
 {
@@ -10,21 +11,60 @@ namespace Instance
     {
         static void Main(string[] args)
         {
+            int[,] roomMap = new int[6, 6];
+            roomMap[0, 0] = 1;
             bool worldExit = false;
-            bool encounterExit = false;
-
+            Hero userHero = new Hero();
+            Console.WriteLine("\nWelcome to the Dungeon!\nPress any key to start creating your character...");
+            Console.ReadKey();
+            Console.Clear();
+            bool characterCreateExit = false;
             do
             {
-                Console.WriteLine("\n\nPress E to start an encounter: ");
+                string sClass = "";
+                string sRace = "";
+                string sName = "";
+                Console.WriteLine("Enter your character's name: ");
+                sName = Console.ReadLine();
+                Console.Clear();
+
+                Hero user = new Hero(100, 100, sName, 20, 10);
+
+                Console.WriteLine("Your Character will be as Follows:");
+                Console.WriteLine(user);
+                Console.WriteLine("Does this look right? Y/N: ");
+                switch (Console.ReadKey().Key)
+                {
+                    case ConsoleKey.Y:
+                        characterCreateExit = true;
+                        userHero = user;
+                        break;
+
+                    case ConsoleKey.N:
+                    default:
+                        Console.Clear();
+                        break;
+                }
+
+            } while (!characterCreateExit);
+
+            
+            do
+            {
+                Console.WriteLine(userHero.Health);
+                userHero.Health -= 2;
+                Console.WriteLine(userHero.Health);
+                Console.WriteLine("\n\nPress E to enter the first room... ");
 
                 ConsoleKey encounter = Console.ReadKey(true).Key;
 
                 if (encounter == ConsoleKey.E)
                 {
-                    encounterExit = false;
+                    bool encounterExit = false;
                     Console.Clear();
-                    Console.WriteLine("\nYou encountered a (Insert Monster Here)\n");
-                    //worldExit = Encounter();
+                    int monsterCount = MakeRoom();
+                    
+
                     do
                     {
                         Console.WriteLine("The (Insert Monster Here) stands before you...");
@@ -52,7 +92,7 @@ namespace Instance
 
                             case ConsoleKey.C:
                                 Console.Clear();
-                                Console.WriteLine("Display Character info/inventory\n");//TODO Inventory/Stats impliment
+                                Console.WriteLine(userHero);//TODO Inventory/Stats impliment
                                 break;
 
                             case ConsoleKey.D:
@@ -133,5 +173,23 @@ namespace Instance
             return worldExit;
         }//end Encounter()
 
+        static int MakeRoom()
+        {
+            Random rand = new Random();
+            string[] size = { "small", "medium", "large" };
+            string[] vibe = { "foul", "musty", "dark", "gloomy", "uncomfortable", "dismal" };
+            string adjSize = size[rand.Next(3)];
+            string adj1 = vibe[rand.Next(6)];
+            string adj2 = vibe[rand.Next(6)];
+            int monsterCount = rand.Next(1, 4);
+            bool plural = false;
+            monsterCount = 1;//TODO REMOVE THIS WHEN MULTI MONSTER IS IMPLIMENTED
+            if (monsterCount > 1)
+            {
+                plural = true;
+            }
+            Console.WriteLine($"You find yourself in a {adjSize}, {adj1}, {adj2} room. There {(plural ? "are" : "is")} {monsterCount} Monster{(plural ? "s" : "")} in the room.");
+            return monsterCount;
+        }//end MakeRoom()
     }//end class
 }//end namespace
