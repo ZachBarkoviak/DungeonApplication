@@ -51,9 +51,6 @@ namespace Instance
             
             do
             {
-                Console.WriteLine(userHero.Health);
-                userHero.Health -= 2;
-                Console.WriteLine(userHero.Health);
                 Console.WriteLine("\n\nPress E to enter the first room... ");
 
                 ConsoleKey encounter = Console.ReadKey(true).Key;
