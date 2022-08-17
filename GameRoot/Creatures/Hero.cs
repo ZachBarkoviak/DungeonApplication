@@ -15,23 +15,54 @@ namespace DungeonLibrary
         private int _health;
         private int _maxHealth;
         private string _name;
+        private string _race;
         private int _hitChance;
         private int _block;
+        private string _characterClass;
 
 
 
         //Props (PascalCase of the field)
 
+        public string Race
+        {
+            get { return _race; }
+            set { _race = value; }
+        }
+        public string CharacterClass
+        {
+            get { return _characterClass; }
+            set { _characterClass = value; }
+        }
         public int MaxHealth
         {
             get { return _maxHealth; }
-            set { _maxHealth = value; }
-            
+            set
+            {
+                switch (CharacterClass)
+                {
+                    case "Barbarian":
+                        _maxHealth = 50;
+                        break;
+
+                    case "Rogue":
+                        _maxHealth = 40;
+                        break;
+
+                    case "Mage":
+                        _maxHealth = 45;
+                        break;
+
+                    case "Depraved":
+                        _maxHealth = 30;
+                        break;
+                }//end max health switch            
+            }
         }
         public int Health
         {
             get { return _health; }
-            set 
+            set
             {
                 if (value > _maxHealth)
                 {
@@ -55,7 +86,27 @@ namespace DungeonLibrary
         public int HitChance
         {
             get { return _hitChance; }
-            set { _hitChance = value; }
+            set
+            {
+                switch (Race)
+                {
+                    case "Elf":
+                        _hitChance = 70;
+                        break;
+
+                    case "Orc":
+                        _hitChance = 65;
+                        break;
+
+                    case "Human":
+                        _hitChance = 60;
+                        break;
+
+                    case "Goblin"://TODO ?Maybe this race will impact the hit chance against it bc it's "friendly" to monsters?
+                        _hitChance = 55;
+                        break;
+                }
+            }
         }
         public int Block
         {
@@ -67,8 +118,10 @@ namespace DungeonLibrary
 
 
         //Constructors / ctors
-        public Hero(int maxHealth, int health, string name, int hitChance, int block)
+        public Hero(string characterClass, string race, int maxHealth, int health, string name, int hitChance, int block)
         {
+            CharacterClass = characterClass;
+            Race = race;
             MaxHealth = maxHealth;
             Health = health;
             Name = name;
@@ -87,7 +140,9 @@ namespace DungeonLibrary
         {
             return $"Name: {Name}\n" +
                    $"Health: {Health} / {MaxHealth}\n" +
-                   $"Defence: {Block}\n";
+                   $"Defence: {Block}\n" +//TODO Impliment Defence stat with armor and stuff
+                   $"Race: {Race}\n" +
+                   $"Class: {CharacterClass}\n";
         }
 
         public int CalcBlock() //TODO Impliment defence stat to modify the block chance
@@ -102,7 +157,16 @@ namespace DungeonLibrary
 
         public int CalcDamage()
         {
-            return 10; //TODO impliment damage based on weapon strength and current opponent defence
-        }
+            Weapon item = new Weapon(10, 2, "Staff", 10, true);
+            Random rand = new Random();
+            int chance = (100 / (item.BonusHitChance + HitChance));
+            int dmg = 1;
+            if (item.Name == "staff")
+            {
+
+            }
+
+            return dmg; //TODO impliment damage based on weapon strength and current opponent defence
+
     }
 }

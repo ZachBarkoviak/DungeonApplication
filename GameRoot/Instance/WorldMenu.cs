@@ -27,8 +27,56 @@ namespace Instance
                 Console.WriteLine("Enter your character's name: ");
                 sName = Console.ReadLine();
                 Console.Clear();
+                Console.WriteLine("Please select a Character Class:\n" +
+                                  "1) Barbarian\n" +
+                                  "2) Rogue\n" +
+                                  "3) Mage\n" +
+                                  "4) \"Other\"");
+                switch (Console.ReadKey(true).Key)
+                {
+                    case ConsoleKey.D1:
+                        sClass = "Barbarian";
+                        break;
 
-                Hero user = new Hero(100, 100, sName, 20, 10);
+                    case ConsoleKey.D2:
+                        sClass = "Rogue";
+                        break;
+
+                    case ConsoleKey.D3:
+                        sClass = "Mage";
+                        break;
+
+                    case ConsoleKey.D4:
+                    default:
+                        sClass = "Depraved";
+                        break;
+                }
+                Console.Clear();
+                Console.WriteLine("Please select a Character Race:\n" +
+                                  "1) Human\n" +
+                                  "2) Elf\n" +
+                                  "3) Orc\n" +
+                                  "4) Goblin");
+                switch (Console.ReadKey(true).Key)
+                {
+                    case ConsoleKey.D1:
+                        sRace = "Human";
+                        break;
+
+                    case ConsoleKey.D2:
+                        sRace = "Elf";
+                        break;
+
+                    case ConsoleKey.D3:
+                        sRace = "Orc";
+                        break;
+
+                    case ConsoleKey.D4:
+                    default:
+                        sRace = "Goblin";
+                        break;
+                }
+                Hero user = new Hero(sClass, sRace, 1, 100, sName, 70, 20);
 
                 Console.WriteLine("Your Character will be as Follows:");
                 Console.WriteLine(user);
@@ -48,7 +96,7 @@ namespace Instance
 
             } while (!characterCreateExit);
 
-            
+
             do
             {
                 Console.WriteLine(userHero.Health);
@@ -63,7 +111,7 @@ namespace Instance
                     bool encounterExit = false;
                     Console.Clear();
                     int monsterCount = MakeRoom();
-                    
+
 
                     do
                     {
@@ -128,7 +176,7 @@ namespace Instance
             do
             {
 
-            
+
                 Console.WriteLine("What are you going to do?" +
                                   "\nA) Attack" +
                                   "\nB) Run Away" +
