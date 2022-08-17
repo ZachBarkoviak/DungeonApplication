@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DungeonLibrary
 {
-    public class Hero
+    public class Character
     {
 
         //Fields (_camelCase)
@@ -19,6 +19,7 @@ namespace DungeonLibrary
         private int _hitChance;
         private int _block;
         private string _characterClass;
+        private Weapon _userWeapon;
 
 
 
@@ -91,19 +92,19 @@ namespace DungeonLibrary
                 switch (Race)
                 {
                     case "Elf":
-                        _hitChance = 70;
+                        _hitChance = 45;
                         break;
 
                     case "Orc":
-                        _hitChance = 65;
+                        _hitChance = 35;
                         break;
 
                     case "Human":
-                        _hitChance = 60;
+                        _hitChance = 40;
                         break;
 
-                    case "Goblin"://TODO ?Maybe this race will impact the hit chance against it bc it's "friendly" to monsters?
-                        _hitChance = 55;
+                    case "Goblin"://DONE ?Maybe this race will impact the hit chance against it bc it's "friendly" to monsters?
+                        _hitChance = 25;
                         break;
                 }
             }
@@ -114,11 +115,44 @@ namespace DungeonLibrary
             set { _block = value; }
         }
 
+        public Weapon UserWeapon
+        {
+            get { return _userWeapon; }
+            set
+            {
+                
+                switch (CharacterClass)
+                {
+                    case "Barbarian":
+                        Weapon battleAxe = new Weapon(15, 5, "Battleaxe", 5, true);
+                        _userWeapon = battleAxe;
+                        break;
+
+                    case "Rogue":
+                        Weapon dagger = new Weapon(8, 2, "Dagger", 10, false);
+                        _userWeapon = dagger;
+                        break;
+
+                    case "Mage":
+                        Weapon staff = new Weapon(11, 0, "Staff", 15, true);
+                        _userWeapon = staff;
+                        break;
+
+                    case "Depraved":
+                    default:
+                        Weapon club = new Weapon(5, 1, "Club", 20, true);
+                        _userWeapon = club;
+                        break;
+                    
+                }//end weapon select switch  
+            }
+        }
+    
 
 
 
         //Constructors / ctors
-        public Hero(string characterClass, string race, int maxHealth, int health, string name, int hitChance, int block)
+        public Character(string characterClass, string race, int maxHealth, int health, string name, int hitChance, int block)
         {
             CharacterClass = characterClass;
             Race = race;
@@ -127,8 +161,9 @@ namespace DungeonLibrary
             Name = name;
             HitChance = hitChance;
             Block = block;
+            UserWeapon = UserWeapon;
         }
-        public Hero()
+        public Character()
         {
 
         }
@@ -140,9 +175,10 @@ namespace DungeonLibrary
         {
             return $"Name: {Name}\n" +
                    $"Health: {Health} / {MaxHealth}\n" +
-                   $"Defence: {Block}\n" +//TODO Impliment Defence stat with armor and stuff
+                   $"Defense: {Block}\n" +//TODO Impliment Defence stat with armor and stuff
                    $"Race: {Race}\n" +
-                   $"Class: {CharacterClass}\n";
+                   $"Class: {CharacterClass}\n" +
+                   $"{UserWeapon}\n";
         }
 
         public int CalcBlock() //TODO Impliment defence stat to modify the block chance
@@ -157,16 +193,26 @@ namespace DungeonLibrary
 
         public int CalcDamage()
         {
-            Weapon item = new Weapon(10, 2, "Staff", 10, true);
+            Weapon item = UserWeapon;
             Random rand = new Random();
-            int chance = (100 / (item.BonusHitChance + HitChance));
-            int dmg = 1;
-            if (item.Name == "staff")
+            Console.WriteLine($"Hit Chance: {HitChance}");
+            Console.WriteLine($"Bonus: {item.BonusHitChance}");
+            double chance = rand.Next(1, 101);
+            Console.WriteLine($"Chance Roll: {chance}");
+            int dmg = 0;
+            if (chance <= (HitChance + item.BonusHitChance))
             {
+                dmg = rand.Next(item.MinDamage, item.MaxDamage + 1);
 
             }
+            else
+            {
+                dmg = 0;
+            }
+            return dmg;
 
-            return dmg; //TODO impliment damage based on weapon strength and current opponent defence
 
+
+        }//end CalcDamage();    
     }
 }

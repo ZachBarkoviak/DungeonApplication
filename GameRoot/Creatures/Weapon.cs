@@ -69,10 +69,11 @@ namespace DungeonLibrary
         //Methods
         public override string ToString()
         {
-            return $"Weapon Name:\t{Name}\n" +
-                   $"Damage Range:\t{MinDamage} - {MaxDamage}\n" +
-                   $"Crit Chance:\t{BonusHitChance}\n" +
-                   $"Type:\t{(IsTwoHanded ? "Two Handed" : "One Handed")}\n";
+            return $"----- Weapon -----\n" +
+                   $"Name: {Name}\n" +
+                   $"Damage Range: {MinDamage} - {MaxDamage}\n" +
+                   $"Hit Bonus: {BonusHitChance}%\n" +
+                   $"Type: {(IsTwoHanded ? "Two Handed" : "One Handed")}\n";
         }
 
 

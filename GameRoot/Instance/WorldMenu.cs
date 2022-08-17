@@ -11,10 +11,11 @@ namespace Instance
     {
         static void Main(string[] args)
         {
+            Console.Title = "The Dungeon of Fungeon";
             int[,] roomMap = new int[6, 6];
             roomMap[0, 0] = 1;
             bool worldExit = false;
-            Hero userHero = new Hero();
+            Character userHero = new Character();
             Console.WriteLine("\nWelcome to the Dungeon!\nPress any key to start creating your character...");
             Console.ReadKey();
             Console.Clear();
@@ -76,8 +77,8 @@ namespace Instance
                         sRace = "Goblin";
                         break;
                 }
-                Hero user = new Hero(sClass, sRace, 1, 100, sName, 70, 20);
-
+                Character user = new Character(sClass, sRace, 1, 100, sName, 70, 20);
+                Console.Clear();
                 Console.WriteLine("Your Character will be as Follows:");
                 Console.WriteLine(user);
                 Console.WriteLine("Does this look right? Y/N: ");
@@ -95,13 +96,13 @@ namespace Instance
                 }
 
             } while (!characterCreateExit);
-
+            Console.Clear();
 
             do
             {
-                Console.WriteLine(userHero.Health);
-                userHero.Health -= 2;
-                Console.WriteLine(userHero.Health);
+                //Console.WriteLine(userHero.Health);
+                //userHero.Health -= 2;
+                //Console.WriteLine(userHero.Health);
                 Console.WriteLine("\n\nPress E to enter the first room... ");
 
                 ConsoleKey encounter = Console.ReadKey(true).Key;
@@ -110,12 +111,14 @@ namespace Instance
                 {
                     bool encounterExit = false;
                     Console.Clear();
-                    int monsterCount = MakeRoom();
+                    MonsterDraft roomMonster = MakeRoom();
+                    
+
 
 
                     do
                     {
-                        Console.WriteLine("The (Insert Monster Here) stands before you...");
+                        Console.WriteLine($"The {roomMonster.Name} stands before you...");
                         Console.WriteLine("What are you going to do?" +
                                           "\nA) Attack" +
                                           "\nB) Run Away" +
@@ -128,7 +131,8 @@ namespace Instance
                         {
                             case ConsoleKey.A:
                                 Console.Clear();
-                                Console.WriteLine("You attack the Monster and (Insert attack result here)\n");//TODO Attack function impliment
+                                int dmg = userHero.CalcDamage();
+                                Console.WriteLine($"You attack the Monster and {(dmg > 0 ? $"you hit it for {dmg} damage!" : "miss!")}");//TODO Attack function impliment
                                 break;
 
                             case ConsoleKey.B:
@@ -145,7 +149,7 @@ namespace Instance
 
                             case ConsoleKey.D:
                                 Console.Clear();
-                                Console.WriteLine("Display Monster info\n");//TODO Monster info impliment
+                                Console.WriteLine(roomMonster);//TODO Monster info impliment
                                 break;
 
                             case ConsoleKey.E:
@@ -221,23 +225,58 @@ namespace Instance
             return worldExit;
         }//end Encounter()
 
-        static int MakeRoom()
+        static MonsterDraft MakeRoom()
         {
             Random rand = new Random();
             string[] size = { "small", "medium", "large" };
-            string[] vibe = { "foul", "musty", "dark", "gloomy", "uncomfortable", "dismal" };
+            string[] vibe = { "foul", "musty", "dark", };
+            string[] vibe2 = { "gloomy", "uncomfortable", "dismal" };
             string adjSize = size[rand.Next(3)];
-            string adj1 = vibe[rand.Next(6)];
-            string adj2 = vibe[rand.Next(6)];
+            string adj1 = vibe[rand.Next(3)];
+            string adj2 = vibe2[rand.Next(3)];
             int monsterCount = rand.Next(1, 4);
             bool plural = false;
-            monsterCount = 1;//TODO REMOVE THIS WHEN MULTI MONSTER IS IMPLIMENTED
-            if (monsterCount > 1)
-            {
-                plural = true;
-            }
-            Console.WriteLine($"You find yourself in a {adjSize}, {adj1}, {adj2} room. There {(plural ? "are" : "is")} {monsterCount} Monster{(plural ? "s" : "")} in the room.");
-            return monsterCount;
+            MonsterDraft monster = new MonsterDraft();
+            //MonsterDraft[] monster = new MonsterDraft[monsterCount];
+            //for (int i = 0; i < monster.Length; i++)
+            //{
+            //    monster[i] = new MonsterDraft();
+            //}
+            //for (int i = 0; i < monster.Length; i++)
+            //{
+                string monName = "";
+                switch (rand.Next(4))
+                {
+                    case 0:
+                        monName = "Goblin";
+                        break;
+
+                    case 1:
+                        monName = "Spider";
+                        break;
+
+                    case 2:
+                        monName = "Skeleton";
+                        break;
+
+                    case 3:
+                        monName = "Zombie";
+                        break;
+
+                    //case 4:
+                    //    break;
+
+                }//end monster select switch
+                monster.Name = monName;
+            //}
+            //if (monsterCount > 1)
+            //{
+            //    plural = true;
+            //}//end if plural
+            //Console.WriteLine($"You find yourself in a {adjSize}, {adj1}, {adj2} room. There {(plural ? "are" : "is")} {monsterCount} Monster{(plural ? "s" : "")} in the room.\n" +
+            //    $"You see a {monster[0].Name}{(monster.Length == 2 ? $", and a {(monster.Length == 3 ? $"{monster[1].Name} and a {monster[2].Name}" : $"{monster[1].Name}")}" : ".")}");
+            Console.WriteLine($"You find yourself in a {adjSize}, {adj1}, {adj2} room. You see a {monster.Name} in the corner");
+            return monster;
         }//end MakeRoom()
     }//end class
 }//end namespace

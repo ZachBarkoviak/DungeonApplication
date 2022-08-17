@@ -110,7 +110,7 @@ namespace Instance
         }//end CurrentLocation()
 
         //Fields (private datatype _camelCase;)
-        private string _description;
+        private string _description;//TODO Map Stuff
         private int[,] _dimensions;
  
         //Props (public datatype PascalCaseOfCamelCase)
