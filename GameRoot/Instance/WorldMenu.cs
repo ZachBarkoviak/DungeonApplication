@@ -37,20 +37,20 @@ namespace Instance
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.D1:
-                        sClass = (PlayerClass)1;//Barbarian
+                        sClass = PlayerClass.Barbarian;
                         break;
 
                     case ConsoleKey.D2:
-                        sClass = (PlayerClass)2;//Rogue
+                        sClass = PlayerClass.Rogue;
                         break;
 
                     case ConsoleKey.D3:
-                        sClass = (PlayerClass)3;//Mage
+                        sClass = PlayerClass.Mage;
                         break;
 
                     case ConsoleKey.D4:
                     default:
-                        sClass = (PlayerClass)4;//Depraved
+                        sClass = PlayerClass.Depraved;
                         break;
                 }
                 Console.Clear();
