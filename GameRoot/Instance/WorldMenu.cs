@@ -158,6 +158,7 @@ namespace Instance
                                 break;
 
                             default:
+                                Console.Clear();
                                 break;
                         }
                     } while (!encounterExit);//end Encounter while
