@@ -104,15 +104,16 @@ namespace DungeonLibrary
                                   "Bits of flesh and rot fall from its body with every step";
                     break;
 
-                case "BOSS"://TODO Do something with the Boss stuff. big baddie description
-                    description = @"     YOU, ARE NOT
-                                           PREPARED.";
-                    break;
                 case "Goblin":
                 default:
                     description = "A small humanoid Creature.\n" +
                         "It has a shorter-than-human stature, " +
                         "a long and hooked nose, bat-like ears, and a mischievous demeanor.";
+                    break;
+
+                case "BOSS"://TODO Do something with the Boss stuff. big baddie description
+                    description = @"     YOU, ARE NOT
+                                           PREPARED.";
                     break;
             }
 

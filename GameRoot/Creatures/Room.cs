@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DungeonLibrary;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Instance
 {
     public class Room
     {
-        public void GenerateMap(int[,] map) //int[,] currentPos)
+        /*public void GenerateMap(int[,] map) //int[,] currentPos)
         {
             
             char[] border = new char[map.GetLength(1) + 2];
@@ -56,63 +57,65 @@ namespace Instance
                 Console.Write(i + " ");
             }
             Console.WriteLine();
-        }//end GenerateMape()
-        public int[] CurrentLocation(int[,] map)
-        {
-            int[] currentPos = {0,0};
-            int currentPosInt = 0;
-            foreach (int item in map)
-            {
-                if (item == 0)
-                {
-                    currentPosInt++;
-                }
-                else
-                {
-                    break;
-                }
-            }
+        }//end GenerateMape()*/
+        /*public int[] CurrentLocation(int[,] map)
+         {
+             int[] currentPos = {0,0};
+             int currentPosInt = 0;
+             foreach (int item in map)
+             {
+                 if (item == 0)
+                 {
+                     currentPosInt++;
+                 }
+                 else
+                 {
+                     break;
+                 }
+             }
 
-            if ((currentPosInt >= 6) && (currentPosInt < 12))
-            {
-                currentPos[0] = 1;
-                currentPos[1] = currentPosInt - 5;
-            }
-            else if ((currentPosInt >= 12) && (currentPosInt < 18))
-            {
-                currentPos[0] = 2;
-                currentPos[1] = currentPosInt - 10;
-            }
-            else if ((currentPosInt >= 18) && (currentPosInt < 24))
-            {
-                currentPos[0] = 3;
-                currentPos[1] = currentPosInt - 15;
-            }
-            else if ((currentPosInt >= 24) && (currentPosInt < 30))
-            {
-                currentPos[0] = 4;
-                currentPos[1] = currentPosInt - 20;
-            }
-            else if (currentPosInt == 36)
-            {
-                currentPos[0] = 5;
-                currentPos[1] = 5;
-            }
-            else
-            {
-                currentPos[0] = 0;
-                currentPos[1] = currentPosInt;
-            }
+             if ((currentPosInt >= 6) && (currentPosInt < 12))
+             {
+                 currentPos[0] = 1;
+                 currentPos[1] = currentPosInt - 5;
+             }
+             else if ((currentPosInt >= 12) && (currentPosInt < 18))
+             {
+                 currentPos[0] = 2;
+                 currentPos[1] = currentPosInt - 10;
+             }
+             else if ((currentPosInt >= 18) && (currentPosInt < 24))
+             {
+                 currentPos[0] = 3;
+                 currentPos[1] = currentPosInt - 15;
+             }
+             else if ((currentPosInt >= 24) && (currentPosInt < 30))
+             {
+                 currentPos[0] = 4;
+                 currentPos[1] = currentPosInt - 20;
+             }
+             else if (currentPosInt == 36)
+             {
+                 currentPos[0] = 5;
+                 currentPos[1] = 5;
+             }
+             else
+             {
+                 currentPos[0] = 0;
+                 currentPos[1] = currentPosInt;
+             }
 
 
 
-            return currentPos;
-        }//end CurrentLocation()
+             return currentPos;
+         }//end CurrentLocation()*/
 
         //Fields (private datatype _camelCase;)
-        private string _description;//TODO Map Stuff
-        private int[,] _dimensions;
- 
+        private string _description;
+        private Room _roomID;
+        private List<string> _moveOptions;
+        private MonsterDraft _enemy;
+
         //Props (public datatype PascalCaseOfCamelCase)
 
 

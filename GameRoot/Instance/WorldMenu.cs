@@ -22,8 +22,9 @@ namespace Instance
             bool characterCreateExit = false;
             do
             {
-                string sClass = "";
-                string sRace = "";
+                PlayerClass sClass;
+                PlayerRace sRace;
+                Weapon sWeapon;
                 string sName = "";
                 Console.WriteLine("Enter your character's name: ");
                 sName = Console.ReadLine();
@@ -36,48 +37,112 @@ namespace Instance
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.D1:
-                        sClass = "Barbarian";
+                        sClass = (PlayerClass)1;//Barbarian
                         break;
 
                     case ConsoleKey.D2:
-                        sClass = "Rogue";
+                        sClass = (PlayerClass)2;//Rogue
                         break;
 
                     case ConsoleKey.D3:
-                        sClass = "Mage";
+                        sClass = (PlayerClass)3;//Mage
                         break;
 
                     case ConsoleKey.D4:
                     default:
-                        sClass = "Depraved";
+                        sClass = (PlayerClass)4;//Depraved
+                        break;
+                }
+                Console.Clear();
+                Console.WriteLine("Choose your weapon: ");
+                switch (sClass)
+                {
+                    case (PlayerClass)1:
+                        Console.WriteLine("1) Battleaxe\n" +
+                                          "2) Broad Sword\n");
+                        if (Console.ReadKey().Key == ConsoleKey.D1)
+                        {
+                            sWeapon = new Weapon(WeaponType.Battleaxe, 5, true);
+                        }
+                        else
+                        {
+                            sWeapon = new Weapon(WeaponType.BroadSword, 8, true);
+                        }
+                        break;
+
+                    case (PlayerClass)2:
+                        Console.WriteLine("1) Dagger\n" +
+                                          "2) Rapier\n");
+                        if (Console.ReadKey().Key == ConsoleKey.D1)
+                        {
+                            sWeapon = new Weapon(WeaponType.Dagger, 10, false);
+                        }
+                        else
+                        {
+                            sWeapon = new Weapon(WeaponType.Rapier, 9, false);
+                        }
+                        break;
+
+                    case (PlayerClass)3:
+                        Console.WriteLine("1) Staff\n" +
+                                          "2) Wand\n");
+                        if (Console.ReadKey().Key == ConsoleKey.D1)
+                        {
+                            sWeapon = new Weapon(WeaponType.Staff, 15, true);
+                        }
+                        else
+                        {
+                            sWeapon = new Weapon(WeaponType.Wand, 12, false);
+                        }
+                        break;
+
+                    case (PlayerClass)4:
+                        Console.WriteLine("1) Club\n" +
+                                          "2) Stick\n");
+                        if (Console.ReadKey().Key == ConsoleKey.D1)
+                        {
+                            sWeapon = new Weapon(WeaponType.Club, 18, true);
+                        }
+                        else
+                        {
+                            sWeapon = new Weapon(WeaponType.Stick, 20, false);
+                        }
+                        break;
+                    default:
+                        sWeapon = new Weapon(WeaponType.Stick, 20, false);
                         break;
                 }
                 Console.Clear();
                 Console.WriteLine("Please select a Character Race:\n" +
-                                  "1) Human\n" +
-                                  "2) Elf\n" +
-                                  "3) Orc\n" +
-                                  "4) Goblin");
+                                  "1) Elf\n" +
+                                  "2) Orc\n" +
+                                  "3) Human\n" +
+                                  "4) Goblin\n" +
+                                  "5) Tiefling");
                 switch (Console.ReadKey(true).Key)
                 {
                     case ConsoleKey.D1:
-                        sRace = "Human";
+                        sRace = PlayerRace.Elf;
                         break;
 
                     case ConsoleKey.D2:
-                        sRace = "Elf";
+                        sRace = PlayerRace.Orc;
                         break;
 
                     case ConsoleKey.D3:
-                        sRace = "Orc";
+                    default:
+                        sRace = PlayerRace.Human;
                         break;
 
                     case ConsoleKey.D4:
-                    default:
-                        sRace = "Goblin";
+                        sRace = PlayerRace.Goblin;
+                        break;
+
+                    case ConsoleKey.D5:
+                        sRace = PlayerRace.Tiefling;
                         break;
                 }
-                Character user = new Character(sClass, sRace, 1, 100, sName, 70, 20);
+                Character user = new Character(sClass, sWeapon, sRace, 1, 100, sName, 70, 20);
                 Console.Clear();
                 Console.WriteLine("Your Character will be as Follows:");
                 Console.WriteLine(user);

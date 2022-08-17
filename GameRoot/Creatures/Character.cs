@@ -15,22 +15,22 @@ namespace DungeonLibrary
         private int _health;
         private int _maxHealth;
         private string _name;
-        private string _race;
+        private PlayerRace _race;
         private int _hitChance;
         private int _block;
-        private string _characterClass;
+        private PlayerClass _characterClass;
         private Weapon _userWeapon;
 
 
 
         //Props (PascalCase of the field)
 
-        public string Race
+        public PlayerRace Race
         {
             get { return _race; }
             set { _race = value; }
         }
-        public string CharacterClass
+        public PlayerClass CharacterClass
         {
             get { return _characterClass; }
             set { _characterClass = value; }
@@ -42,19 +42,19 @@ namespace DungeonLibrary
             {
                 switch (CharacterClass)
                 {
-                    case "Barbarian":
+                    case (PlayerClass)1: //Barbarian
                         _maxHealth = 50;
                         break;
 
-                    case "Rogue":
+                    case (PlayerClass)2://Rogue
                         _maxHealth = 40;
                         break;
 
-                    case "Mage":
+                    case (PlayerClass)3://Mage
                         _maxHealth = 45;
                         break;
 
-                    case "Depraved":
+                    case (PlayerClass)4://Depraved
                         _maxHealth = 30;
                         break;
                 }//end max health switch            
@@ -91,19 +91,23 @@ namespace DungeonLibrary
             {
                 switch (Race)
                 {
-                    case "Elf":
+                    case (PlayerRace)1://Elf
                         _hitChance = 45;
                         break;
 
-                    case "Orc":
+                    case (PlayerRace)2://Orc
                         _hitChance = 35;
                         break;
 
-                    case "Human":
+                    case (PlayerRace)3://Human
                         _hitChance = 40;
                         break;
 
-                    case "Goblin"://DONE ?Maybe this race will impact the hit chance against it bc it's "friendly" to monsters?
+                    case (PlayerRace)4://Goblin
+                        _hitChance = 25;
+                        break;
+
+                    case (PlayerRace)5://Tiefling
                         _hitChance = 25;
                         break;
                 }
@@ -118,50 +122,48 @@ namespace DungeonLibrary
         public Weapon UserWeapon
         {
             get { return _userWeapon; }
-            set
-            {
-                
-                switch (CharacterClass)
-                {
-                    case "Barbarian":
-                        Weapon battleAxe = new Weapon(15, 5, "Battleaxe", 5, true);
-                        _userWeapon = battleAxe;
-                        break;
-
-                    case "Rogue":
-                        Weapon dagger = new Weapon(8, 2, "Dagger", 10, false);
-                        _userWeapon = dagger;
-                        break;
-
-                    case "Mage":
-                        Weapon staff = new Weapon(11, 0, "Staff", 15, true);
-                        _userWeapon = staff;
-                        break;
-
-                    case "Depraved":
-                    default:
-                        Weapon club = new Weapon(5, 1, "Club", 20, true);
-                        _userWeapon = club;
-                        break;
-                    
-                }//end weapon select switch  
-            }
+            set { _userWeapon = value; }
+            #region Old Class based weapon choice
+            //{
+            //    switch (CharacterClass)
+            //    {
+            //        case (PlayerClass)1: //Barbarian
+            //            Weapon battleAxe = new Weapon(15, 5, "Battleaxe", 5, true);
+            //            _userWeapon = battleAxe;
+            //            break;
+            //        case (PlayerClass)2://Rogue
+            //            Weapon dagger = new Weapon(8, 2, "Dagger", 10, false);
+            //            _userWeapon = dagger;
+            //            break;
+            //        case (PlayerClass)3://Mage
+            //            Weapon staff = new Weapon(11, 0, "Staff", 15, true);
+            //            _userWeapon = staff;
+            //            break;
+            //        case (PlayerClass)4://Depraved
+            //        default:
+            //            Weapon club = new Weapon(5, 1, "Club", 20, true);
+            //            _userWeapon = club;
+            //            break;
+            //    }//end weapon select switch  
+            //}
+            #endregion
         }
-    
+
 
 
 
         //Constructors / ctors
-        public Character(string characterClass, string race, int maxHealth, int health, string name, int hitChance, int block)
+        public Character(PlayerClass characterClass, Weapon userWeapon, PlayerRace race, int maxHealth, int health, string name, int hitChance, int block)
         {
             CharacterClass = characterClass;
             Race = race;
+            UserWeapon = userWeapon;
             MaxHealth = maxHealth;
             Health = health;
             Name = name;
             HitChance = hitChance;
             Block = block;
-            UserWeapon = UserWeapon;
+            //UserWeapon = UserWeapon;
         }
         public Character()
         {
