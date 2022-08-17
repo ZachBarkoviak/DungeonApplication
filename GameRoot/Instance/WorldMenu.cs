@@ -174,10 +174,11 @@ namespace Instance
         {
             Random rand = new Random();
             string[] size = { "small", "medium", "large" };
-            string[] vibe = { "foul", "musty", "dark", "gloomy", "uncomfortable", "dismal" };
+            string[] vibe = { "foul", "musty", "dark" };
+            string[] vibe2 = { "gloomy", "uncomfortable", "dismal" };
             string adjSize = size[rand.Next(3)];
-            string adj1 = vibe[rand.Next(6)];
-            string adj2 = vibe[rand.Next(6)];
+            string adj1 = vibe[rand.Next(3)];
+            string adj2 = vibe2[rand.Next(3)];
             int monsterCount = rand.Next(1, 4);
             bool plural = false;
             monsterCount = 1;//TODO REMOVE THIS WHEN MULTI MONSTER IS IMPLIMENTED
