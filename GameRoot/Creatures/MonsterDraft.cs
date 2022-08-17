@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace DungeonLibrary
 {
-    internal class MonsterDraft
+    public class MonsterDraft
     {
         //Fields (private datatype _camelCase;)
         private int _health;
@@ -70,9 +71,56 @@ namespace DungeonLibrary
             Block = block;
         }
 
+        public MonsterDraft()
+        {
+            Name = "Goblin";
+            MaxHealth = 45;
+            Health = 45;
+            Type = "Goblin";
+            HitChance = 20;
+            Block = 5;
+        }
+
+
         //Methods
 
+        public override string ToString()
+        {
+            string description = "";
+            switch (Name)
+            {
+                case "Skeleton":
+                    description = "It's.....It's a moving pile of bones....";
+                    break;
 
+                case "Spider":
+                    description = "A malevolent 8 legged creature.\n" +
+                                  "When you look closer, you notice venom dripping from it's exposed fangs.";
+                    break;
+
+                case "Zombie":
+                    description = "Did it just say \"BRAINS\"?\n" +
+                                  "It shambles toward you, dragging one foot as it goes.\n" +
+                                  "Bits of flesh and rot fall from its body with every step";
+                    break;
+
+                case "Goblin":
+                default:
+                    description = "A small humanoid Creature.\n" +
+                        "It has a shorter-than-human stature, " +
+                        "a long and hooked nose, bat-like ears, and a mischievous demeanor.";
+                    break;
+
+                case "BOSS"://TODO Do something with the Boss stuff. big baddie description
+                    description = @"     YOU, ARE NOT
+                                           PREPARED.";
+                    break;
+            }
+
+            return $"Name: {Name}\n" +
+                   $"Health: {Health}\n" +
+                   $"Decription:\n{description}";
+        }
 
 
 
