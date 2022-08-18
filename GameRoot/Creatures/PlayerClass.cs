@@ -12,5 +12,6 @@ namespace DungeonLibrary
         Rogue = 2,
         Mage = 3,
         Depraved = 4,
+        FrontEndMaster = 5,
     }
 }

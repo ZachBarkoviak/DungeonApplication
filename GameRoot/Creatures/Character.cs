@@ -42,21 +42,26 @@ namespace DungeonLibrary
             {
                 switch (CharacterClass)
                 {
-                    case (PlayerClass)1: //Barbarian
+                    case PlayerClass.Barbarian:
                         _maxHealth = 50;
                         break;
 
-                    case (PlayerClass)2://Rogue
+                    case PlayerClass.Rogue:
                         _maxHealth = 40;
                         break;
 
-                    case (PlayerClass)3://Mage
+                    case PlayerClass.Mage:
                         _maxHealth = 45;
                         break;
 
-                    case (PlayerClass)4://Depraved
+                    case PlayerClass.Depraved:
                         _maxHealth = 30;
                         break;
+                    #region Secrets
+                    case PlayerClass.FrontEndMaster:
+                        _maxHealth = 100;
+                        break; 
+                    #endregion
                 }//end max health switch            
             }
         }
@@ -91,25 +96,30 @@ namespace DungeonLibrary
             {
                 switch (Race)
                 {
-                    case (PlayerRace)1://Elf
+                    case PlayerRace.Elf:
                         _hitChance = 45;
                         break;
 
-                    case (PlayerRace)2://Orc
+                    case PlayerRace.Orc:
                         _hitChance = 35;
                         break;
 
-                    case (PlayerRace)3://Human
+                    case PlayerRace.Human:
                         _hitChance = 40;
                         break;
 
-                    case (PlayerRace)4://Goblin
+                    case PlayerRace.Goblin:
                         _hitChance = 25;
                         break;
 
-                    case (PlayerRace)5://Tiefling
+                    case PlayerRace.Tiefling:
                         _hitChance = 25;
                         break;
+                    #region Secrets
+                    case PlayerRace.Developer:
+                        _hitChance = 50;
+                        break; 
+                    #endregion
                 }
             }
         }

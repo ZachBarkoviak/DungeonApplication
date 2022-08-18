@@ -52,12 +52,18 @@ namespace Instance
                     default:
                         sClass = PlayerClass.Depraved;
                         break;
+                    #region Secrets
+                    case ConsoleKey:D9:
+                        sClass = PlayerClass.FrontEndMaster;
+                        sName = "Spencer";
+                        break;
+                    #endregion
                 }
                 Console.Clear();
                 Console.WriteLine("Choose your weapon: ");
                 switch (sClass)
                 {
-                    case (PlayerClass)1:
+                    case PlayerClass.Barbarian:
                         Console.WriteLine("1) Battleaxe\n" +
                                           "2) Broad Sword\n");
                         if (Console.ReadKey().Key == ConsoleKey.D1)
@@ -70,7 +76,7 @@ namespace Instance
                         }
                         break;
 
-                    case (PlayerClass)2:
+                    case PlayerClass.Rogue:
                         Console.WriteLine("1) Dagger\n" +
                                           "2) Rapier\n");
                         if (Console.ReadKey().Key == ConsoleKey.D1)
@@ -83,7 +89,7 @@ namespace Instance
                         }
                         break;
 
-                    case (PlayerClass)3:
+                    case PlayerClass.Mage:
                         Console.WriteLine("1) Staff\n" +
                                           "2) Wand\n");
                         if (Console.ReadKey().Key == ConsoleKey.D1)
@@ -96,7 +102,7 @@ namespace Instance
                         }
                         break;
 
-                    case (PlayerClass)4:
+                    case PlayerClass.Depraved:
                         Console.WriteLine("1) Club\n" +
                                           "2) Stick\n");
                         if (Console.ReadKey().Key == ConsoleKey.D1)
@@ -111,6 +117,11 @@ namespace Instance
                     default:
                         sWeapon = new Weapon(WeaponType.Stick, 20, false);
                         break;
+                    #region Secrets
+                    case PlayerClass.FrontEndMaster:
+                        sWeapon = new Weapon(WeaponType.SpencersMustache, 30, true);
+                        break;
+                    #endregion
                 }
                 Console.Clear();
                 Console.WriteLine("Please select a Character Race:\n" +
@@ -141,6 +152,11 @@ namespace Instance
                     case ConsoleKey.D5:
                         sRace = PlayerRace.Tiefling;
                         break;
+                    #region Secrets
+                    case ConsoleKey.D9:
+                        sRace = PlayerRace.Developer;
+                        break;
+                    #endregion
                 }
                 Character user = new Character(sClass, sWeapon, sRace, 1, 100, sName, 70, 20);
                 Console.Clear();

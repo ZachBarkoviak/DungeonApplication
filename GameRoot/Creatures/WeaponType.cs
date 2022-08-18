@@ -16,5 +16,6 @@ namespace DungeonLibrary
         Wand = 6, //Min=0 Max=9
         Club = 7, //Min=1 Max=5
         Stick = 8, //Min=2 Max=7
+        SpencersMustache = 9, //Min=25 Max=50 
     }
 }

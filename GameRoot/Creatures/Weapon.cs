@@ -23,38 +23,43 @@ namespace DungeonLibrary
             {
                 switch (Type)
                 {
-                    case (WeaponType)1: //Battleaxe
+                    case WeaponType.Battleaxe: //Battleaxe
                         return 15;
                         break;
 
-                    case (WeaponType)2: //BroadSword
+                    case WeaponType.BroadSword: //BroadSword
                         return 14;
                         break;
 
-                    case (WeaponType)3: //Dagger
+                    case WeaponType.Dagger: //Dagger
                         return 8;
                         break;
 
-                    case (WeaponType)4: //Rapier
+                    case WeaponType.Rapier: //Rapier
                         return 7;
                         break;
 
-                    case (WeaponType)5: //Staff
+                    case WeaponType.Staff: //Staff
                         return 11;
                         break;
 
-                    case (WeaponType)6: //Wand
+                    case WeaponType.Wand: //Wand
                         return 9;
                         break;
 
-                    case (WeaponType)7: //Club
+                    case WeaponType.Club: //Club
                     default:
                         return 5;
                         break;
 
-                    case (WeaponType)8: //Stick
+                    case WeaponType.Stick: //Stick
                         return 7;
                         break;
+                    #region Secrets
+                    case WeaponType.SpencersMustache:
+                        return 50;
+                        break;
+                    #endregion
                 }
             }
         }
@@ -64,38 +69,43 @@ namespace DungeonLibrary
             {
                 switch (Type)
                 {
-                    case (WeaponType)1: //Battleaxe
+                    case WeaponType.Battleaxe: 
                         return  5;
                         break;
 
-                    case (WeaponType)2: //BroadSword
+                    case WeaponType.BroadSword: 
                         return 6;
                         break;
 
-                    case (WeaponType)3: //Dagger
+                    case WeaponType.Dagger: 
                         return 2;
                         break;
 
-                    case (WeaponType)4: //Rapier
+                    case WeaponType.Rapier: 
                         return 3;
                         break;
 
-                    case (WeaponType)5: //Staff
+                    case WeaponType.Staff: 
                         return 1;
                         break;
 
-                    case (WeaponType)6: //Wand
+                    case WeaponType.Wand: 
                         return 0;
                         break;
 
-                    case (WeaponType)7: //Club
+                    case WeaponType.Club: 
                     default:
                         return 1;
                         break;
 
-                    case (WeaponType)8: //Stick
+                    case WeaponType.Stick: 
                         return 2;
                         break;
+                    #region Secrets
+                    case WeaponType.SpencersMustache:
+                        return 25;
+                        break;
+                    #endregion
                 }
             }
         }
@@ -125,7 +135,7 @@ namespace DungeonLibrary
         public Weapon(WeaponType type, /*int maxDamage, int minDamage, string name,*/ int bonusHitChance, bool isTwoHanded)
         {
             Type = type;
-            BonusHitChance = bonusHitChance;//TODO impliment crit chance
+            BonusHitChance = bonusHitChance;
             IsTwoHanded = isTwoHanded;//TODO **Maybe do some duel wield options?
         }
 
