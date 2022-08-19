@@ -14,8 +14,7 @@ namespace Instance
             Console.Title = "The Dungeon of Fungeon";
             int[,] roomMap = new int[6, 6];
             roomMap[0, 0] = 1;
-            bool worldExit = false;
-            Character userHero = new Character();
+            Player userHero = new Player();
             Console.WriteLine("\nWelcome to the Dungeon!\nPress any key to start creating your character...");
             Console.ReadKey();
             Console.Clear();
@@ -158,7 +157,7 @@ namespace Instance
                         break;
                     #endregion
                 }
-                Character user = new Character(sClass, sWeapon, sRace, 1, 100, sName, 70, 20);
+                Player user = new Player(1, 100, sName, 1, 1, sClass, sWeapon, sRace);
                 Console.Clear();
                 Console.WriteLine("Your Character will be as Follows:");
                 Console.WriteLine(user);
@@ -178,76 +177,113 @@ namespace Instance
 
             } while (!characterCreateExit);
             Console.Clear();
-
+            Monster RoomMonster = new Monster();
+            Room room = new Room(1, false, false, RoomMonster.GetMonster());
+            bool newRoom = false;
+            bool worldExit = false;
+            int roomCount = 1;
+            Random rand = new Random();
             do
             {
                 //Console.WriteLine(userHero.Health);
                 //userHero.Health -= 2;
                 //Console.WriteLine(userHero.Health);
-                Console.WriteLine("\n\nPress E to enter the first room... ");
+                Console.WriteLine("\n\nPress a key to enter the first room... ");
 
-                ConsoleKey encounter = Console.ReadKey(true).Key;
-
-                if (encounter == ConsoleKey.E)
+                Console.ReadKey();
+                if(newRoom) //TODO create condition for completed room (kinda implimented)
                 {
-                    bool encounterExit = false;
-                    Console.Clear();
-                    MonsterDraft roomMonster = MakeRoom();
-                    
-
-
-
-                    do
+                    roomCount++;
+                    if (roomCount == 6)
                     {
-                        Console.WriteLine($"The {roomMonster.Name} stands before you...");
-                        Console.WriteLine("What are you going to do?" +
-                                          "\nA) Attack" +
-                                          "\nB) Run Away" +
-                                          "\nC) Character Info" +
-                                          "\nD) Monster Info" +
-                                          "\nE) Exit");
-                        ConsoleKey userAction = Console.ReadKey(true).Key;
-
-                        switch (userAction)
-                        {
-                            case ConsoleKey.A:
-                                Console.Clear();
-                                int dmg = userHero.CalcDamage();
-                                Console.WriteLine($"You attack the Monster and {(dmg > 0 ? $"you hit it for {dmg} damage!" : "miss!")}");//TODO Attack function impliment
-                                break;
-
-                            case ConsoleKey.B:
-                                Console.Clear();
-                                Console.WriteLine("You Ran Away\n");
-                                encounterExit = true;
-                                worldExit = false;
-                                break;
-
-                            case ConsoleKey.C:
-                                Console.Clear();
-                                Console.WriteLine(userHero);//TODO Inventory/Stats impliment
-                                break;
-
-                            case ConsoleKey.D:
-                                Console.Clear();
-                                Console.WriteLine(roomMonster);//TODO Monster info impliment
-                                break;
-
-                            case ConsoleKey.E:
-                                encounterExit = true;
-                                worldExit = true;
-                                break;
-
-                            default:
-                                Console.Clear();
-                                break;
-                        }
-                    } while (!encounterExit);//end Encounter while
+                        room = new Room(6, false, false, RoomMonster.GetMonster(6));
+                    }
+                    room = new Room(roomCount, (rand.Next(2) == 1 ? false : true),
+                                   (rand.Next(2) == 1 ? false : true), RoomMonster.GetMonster());
+                    newRoom = false;
                 }
-                else
+
+                bool encounterExit = false;
+                Console.Clear();
+                
+                do
                 {
-                    Console.Clear();
-                }
+                    Console.WriteLine(room);
+                    Console.WriteLine($"\nThe {room.RoomMonster.Name} stands before you...");
+                    Console.WriteLine("What are you going to do?" +
+                                        "\nA) Attack" +
+                                        "\nB) Run Away" +
+                                        "\nC) Character Info" +
+                                        "\nD) Monster Info" +
+                                        "\nE) Exit");
+                    ConsoleKey userAction = Console.ReadKey(true).Key;
+
+                    switch (userAction)
+                    {
+                        case ConsoleKey.A:
+                            Console.Clear();
+                            Console.WriteLine("***** YOUR ATTACK *****\n");
+                            int dmg = userHero.CalcDamage(room.RoomMonster);
+                            if (dmg >= room.RoomMonster.Health)
+                            {
+                                Console.WriteLine("you slay the monster. Press key to continue...");
+                                encounterExit = true;
+                                newRoom = true;
+                                Console.ReadKey();
+                                Console.Clear();
+                                break;
+                            }
+                            else if (dmg > 0 && dmg > room.RoomMonster.Block)
+                            {
+                                Console.WriteLine($"You attack the Monster and hit it for {dmg} damage!");
+                                Console.WriteLine($"\nMonster Health before attack: {room.RoomMonster.Health}");
+                                room.RoomMonster.Health -= dmg;
+                                Console.WriteLine($"\nMonster Health after attack: {room.RoomMonster.Health}");
+                            }
+                            else
+                            {
+                                Console.WriteLine($"You attack the Monster and miss!");
+                            }
+                            Console.WriteLine("***** MONSTER ATTACK *****\n");
+                            int monDam = room.RoomMonster.CalcDamage(userHero);
+                            if (monDam > 0 && monDam > userHero.Block)
+                            {
+                                Console.WriteLine($"The monster hits you for {monDam} damage!");
+                                userHero.Health -= monDam;
+                            }
+                            else
+                            {
+                                Console.WriteLine("The monster takes a swipe at you, but it misses!");
+                            }
+                            break;
+
+                        case ConsoleKey.B:
+                            Console.Clear();
+                            Console.WriteLine("You Ran Away\n");
+                            encounterExit = true;
+                            worldExit = false;
+                            break;
+
+                        case ConsoleKey.C:
+                            Console.Clear();
+                            Console.WriteLine(userHero);//TODO Inventory/Stats impliment
+                            break;
+
+                        case ConsoleKey.D:
+                            Console.Clear();
+                            Console.WriteLine(room.RoomMonster);//DONE Monster info impliment
+                            break;
+
+                        case ConsoleKey.E:
+                            encounterExit = true;
+                            worldExit = true;
+                            break;
+
+                        default:
+                            Console.Clear();
+                            break;
+                    }
+                } while (!encounterExit);//end Encounter while
             } while (!worldExit); //end World DoWhile
 
 
@@ -305,9 +341,9 @@ namespace Instance
                 }
             } while (!encounterExit);//end Encounter while
             return worldExit;
-        }//end Encounter()
+        }//end Encounter()    //PROBABLY WONT USE
 
-        static MonsterDraft MakeRoom()
+        static Monster MakeRoom() //TODO PHASE OUT FOR CUSTOM ROOM CLASS CreateRoom()
         {
             Random rand = new Random();
             string[] size = { "small", "medium", "large" };
@@ -318,7 +354,7 @@ namespace Instance
             string adj2 = vibe2[rand.Next(3)];
             int monsterCount = rand.Next(1, 4);
             bool plural = false;
-            MonsterDraft monster = new MonsterDraft();
+            Monster monster = new Monster();
             //MonsterDraft[] monster = new MonsterDraft[monsterCount];
             //for (int i = 0; i < monster.Length; i++)
             //{
