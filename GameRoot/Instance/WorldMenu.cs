@@ -12,13 +12,14 @@ namespace Instance
         static void Main(string[] args)
         {
             Console.Title = "The Dungeon of Fungeon";
-            int[,] roomMap = new int[6, 6];
-            roomMap[0, 0] = 1;
+
             Player userHero = new Player();
-            Console.WriteLine("\nWelcome to the Dungeon!\nPress any key to start creating your character...");
+            Console.WriteLine("Welcome to the Dungeon!\nPress any key to start creating your character...");
             Console.ReadKey();
             Console.Clear();
             bool characterCreateExit = false;
+
+            #region Make Character Create a method
             do
             {
                 PlayerClass sClass;
@@ -176,6 +177,9 @@ namespace Instance
                 }
 
             } while (!characterCreateExit);
+            #endregion
+            
+            
             Console.Clear();
             Monster RoomMonster = new Monster();
             Room room = new Room(1, false, false, RoomMonster.GetMonster());
