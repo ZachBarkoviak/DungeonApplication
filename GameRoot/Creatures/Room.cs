@@ -19,6 +19,7 @@ namespace Instance
         public bool IsTrapped { get; set; }
         public bool HasChest { get; set; }
         public Monster RoomMonster { get; set; }
+        public string Description { get; set; }
 
 
         //Constructors (public class(props)) (ctor + tab + tab for default)
@@ -32,9 +33,7 @@ namespace Instance
 
         public Room()
         {
-            RoomID = 0;
-            IsTrapped = false;
-            HasChest = false;
+
         }
 
         //Methods
@@ -62,7 +61,7 @@ namespace Instance
             string adj1 = vibe[rand.Next(3)];
             string adj2 = vibe2[rand.Next(3)];
             RoomMonster.GetMonster();
-            Console.WriteLine($"You find yourself in a {adjSize}, {adj1}, {adj2} room. You see a {RoomMonster.Name} in the corner");
+            Description = $"You find yourself in a {adjSize}, {adj1}, {adj2} room. You see a {RoomMonster.Name} in the corner";
         }
 
 

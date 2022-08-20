@@ -12,14 +12,21 @@ namespace Instance
         static void Main(string[] args)
         {
             Console.Title = "The Dungeon of Fungeon";
-
+            Monster monsterTest = new Monster();
+            ////////RoomTEST roomTEST = new RoomTEST(5,5,monsterTest);
             Player userHero = new Player();
             Console.WriteLine("Welcome to the Dungeon!\nPress any key to start creating your character...");
             Console.ReadKey();
             Console.Clear();
             bool characterCreateExit = false;
 
-            #region Make Character Create a method
+            //roomTEST.GenerateMap();
+
+            //Console.WriteLine((roomTEST.CurrentLocation())[0]);
+            //Console.WriteLine((roomTEST.CurrentLocation())[1]);
+
+
+            #region Character Creation
             do
             {
                 PlayerClass sClass;
@@ -53,11 +60,12 @@ namespace Instance
                         sClass = PlayerClass.Depraved;
                         break;
                     #region Secrets
-                    case ConsoleKey:D9:
+                    case ConsoleKey:
+                    D9:
                         sClass = PlayerClass.FrontEndMaster;
                         sName = "Spencer";
                         break;
-                    #endregion
+                        #endregion
                 }
                 Console.Clear();
                 Console.WriteLine("Choose your weapon: ");
@@ -121,7 +129,7 @@ namespace Instance
                     case PlayerClass.FrontEndMaster:
                         sWeapon = new Weapon(WeaponType.SpencersMustache, 30, true);
                         break;
-                    #endregion
+                        #endregion
                 }
                 Console.Clear();
                 Console.WriteLine("Please select a Character Race:\n" +
@@ -156,7 +164,7 @@ namespace Instance
                     case ConsoleKey.D9:
                         sRace = PlayerRace.Developer;
                         break;
-                    #endregion
+                        #endregion
                 }
                 Player user = new Player(1, 100, sName, 1, 1, sClass, sWeapon, sRace);
                 Console.Clear();
@@ -177,96 +185,116 @@ namespace Instance
                 }
 
             } while (!characterCreateExit);
-            #endregion
-            
-            
+            #endregion //TODO Make this a method for player to make the main less busy
+            //TODO Make this^ a method for player to make the main less busy
+
             Console.Clear();
-            Monster RoomMonster = new Monster();
-            Room room = new Room(1, false, false, RoomMonster.GetMonster());
+            //////Monster RoomMonster = new Monster();
+            //////Room room = new Room(1, false, false, RoomMonster.GetMonster());
             bool newRoom = false;
             bool worldExit = false;
             int roomCount = 1;
             Random rand = new Random();
+            RoomTEST room;
+            //Console.WriteLine(userHero.Health);
+            //userHero.Health -= 2;
+            //Console.WriteLine(userHero.Health);
+            Console.WriteLine("\n\nPress a key to enter the first room... ");
+
+            Console.ReadKey();
+
             do
             {
-                //Console.WriteLine(userHero.Health);
-                //userHero.Health -= 2;
-                //Console.WriteLine(userHero.Health);
-                Console.WriteLine("\n\nPress a key to enter the first room... ");
-
-                Console.ReadKey();
-                if(newRoom) //TODO create condition for completed room (kinda implimented)
+                if (newRoom) //TODO create condition for completed room (kinda implimented)
                 {
-                    roomCount++;
-                    if (roomCount == 6)
-                    {
-                        room = new Room(6, false, false, RoomMonster.GetMonster(6));
-                    }
-                    room = new Room(roomCount, (rand.Next(2) == 1 ? false : true),
-                                   (rand.Next(2) == 1 ? false : true), RoomMonster.GetMonster());
-                    newRoom = false;
+                    //roomCount++;
+                    //if (roomCount == 6)
+                    //{
+                    //    room = new Room(6, false, false, RoomMonster.GetMonster(6));
+                    //}
+                    //room = new Room(roomCount, (rand.Next(2) == 1 ? false : true),
+                    //               (rand.Next(2) == 1 ? false : true), RoomMonster.GetMonster());
+                    //newRoom = false;
                 }
-
                 bool encounterExit = false;
                 Console.Clear();
-                
+                string load = "Loading...";
+                for (int i = 0; i < load.Length; i++)
+                {
+                    Console.Write(load[i]);
+                    Thread.Sleep(150);
+                }
+                room = new RoomTEST(5, 5, monsterTest);
+                Console.Clear();
+                for (int i = 0; i < load.Length; i++)
+                {
+                    Console.Write(load[i]);
+                    Thread.Sleep(150);
+                }
+                Thread.Sleep(100);
+                Console.Clear();
+                room.GenerateMap();
+
+
+
+
+                #region Encounter Longhand
                 do
                 {
-                    Console.WriteLine(room);
                     Console.WriteLine($"\nThe {room.RoomMonster.Name} stands before you...");
                     Console.WriteLine("What are you going to do?" +
-                                        "\nA) Attack" +
-                                        "\nB) Run Away" +
                                         "\nC) Character Info" +
                                         "\nD) Monster Info" +
+                                        "\nM) Move" +
                                         "\nE) Exit");
                     ConsoleKey userAction = Console.ReadKey(true).Key;
 
                     switch (userAction)
                     {
-                        case ConsoleKey.A:
-                            Console.Clear();
-                            Console.WriteLine("***** YOUR ATTACK *****\n");
-                            int dmg = userHero.CalcDamage(room.RoomMonster);
-                            if (dmg >= room.RoomMonster.Health)
-                            {
-                                Console.WriteLine("you slay the monster. Press key to continue...");
-                                encounterExit = true;
-                                newRoom = true;
-                                Console.ReadKey();
-                                Console.Clear();
-                                break;
-                            }
-                            else if (dmg > 0 && dmg > room.RoomMonster.Block)
-                            {
-                                Console.WriteLine($"You attack the Monster and hit it for {dmg} damage!");
-                                Console.WriteLine($"\nMonster Health before attack: {room.RoomMonster.Health}");
-                                room.RoomMonster.Health -= dmg;
-                                Console.WriteLine($"\nMonster Health after attack: {room.RoomMonster.Health}");
-                            }
-                            else
-                            {
-                                Console.WriteLine($"You attack the Monster and miss!");
-                            }
-                            Console.WriteLine("***** MONSTER ATTACK *****\n");
-                            int monDam = room.RoomMonster.CalcDamage(userHero);
-                            if (monDam > 0 && monDam > userHero.Block)
-                            {
-                                Console.WriteLine($"The monster hits you for {monDam} damage!");
-                                userHero.Health -= monDam;
-                            }
-                            else
-                            {
-                                Console.WriteLine("The monster takes a swipe at you, but it misses!");
-                            }
-                            break;
+                        #region Old Encounter stuff
+                        /*case ConsoleKey.A:
+                    Console.Clear();
+                    Console.WriteLine("***** YOUR ATTACK *****\n");
+                    int dmg = userHero.CalcDamage(room.RoomMonster);
+                    if (dmg >= room.RoomMonster.Health)
+                    {
+                        Console.WriteLine("you slay the monster. Press key to continue...");
+                        encounterExit = true;
+                        newRoom = true;
+                        Console.ReadKey();
+                        Console.Clear();
+                        break;
+                    }
+                    else if (dmg > 0 && dmg > room.RoomMonster.Block)
+                    {
+                        Console.WriteLine($"You attack the Monster and hit it for {dmg} damage!");
+                        Console.WriteLine($"\nMonster Health before attack: {room.RoomMonster.Health}");
+                        room.RoomMonster.Health -= dmg;
+                        Console.WriteLine($"\nMonster Health after attack: {room.RoomMonster.Health}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"You attack the Monster and miss!");
+                    }
+                    Console.WriteLine("***** MONSTER ATTACK *****\n");
+                    int monDam = room.RoomMonster.CalcDamage(userHero);
+                    if (monDam > 0 && monDam > userHero.Block)
+                    {
+                        Console.WriteLine($"The monster hits you for {monDam} damage!");
+                        userHero.Health -= monDam;
+                    }
+                    else
+                    {
+                        Console.WriteLine("The monster takes a swipe at you, but it misses!");
+                    }
+                    break; 
 
                         case ConsoleKey.B:
                             Console.Clear();
                             Console.WriteLine("You Ran Away\n");
                             encounterExit = true;
-                            worldExit = false;
-                            break;
+                            break;*/
+                        #endregion
 
                         case ConsoleKey.C:
                             Console.Clear();
@@ -279,15 +307,24 @@ namespace Instance
                             break;
 
                         case ConsoleKey.E:
-                            encounterExit = true;
                             worldExit = true;
                             break;
 
+                        case ConsoleKey.M:
+                            room.UserMove();
+                            if (room.CurrentPos == room.MonsterPos)
+                            {
+                                Console.WriteLine("Encounter Started. push key");
+                                Console.ReadKey();
+                            }
+                            break;
                         default:
                             Console.Clear();
                             break;
                     }
-                } while (!encounterExit);//end Encounter while
+                } while (!encounterExit && !worldExit);//end Encounter while 
+                #endregion
+
             } while (!worldExit); //end World DoWhile
 
 
@@ -347,6 +384,14 @@ namespace Instance
             return worldExit;
         }//end Encounter()    //PROBABLY WONT USE
 
+
+
+
+
+
+
+
+        #region Old MakeRoom()
         static Monster MakeRoom() //TODO PHASE OUT FOR CUSTOM ROOM CLASS CreateRoom()
         {
             Random rand = new Random();
@@ -366,30 +411,30 @@ namespace Instance
             //}
             //for (int i = 0; i < monster.Length; i++)
             //{
-                string monName = "";
-                switch (rand.Next(4))
-                {
-                    case 0:
-                        monName = "Goblin";
-                        break;
+            string monName = "";
+            switch (rand.Next(4))
+            {
+                case 0:
+                    monName = "Goblin";
+                    break;
 
-                    case 1:
-                        monName = "Spider";
-                        break;
+                case 1:
+                    monName = "Spider";
+                    break;
 
-                    case 2:
-                        monName = "Skeleton";
-                        break;
+                case 2:
+                    monName = "Skeleton";
+                    break;
 
-                    case 3:
-                        monName = "Zombie";
-                        break;
+                case 3:
+                    monName = "Zombie";
+                    break;
 
                     //case 4:
                     //    break;
 
-                }//end monster select switch
-                monster.Name = monName;
+            }//end monster select switch
+            monster.Name = monName;
             //}
             //if (monsterCount > 1)
             //{
@@ -399,6 +444,7 @@ namespace Instance
             //    $"You see a {monster[0].Name}{(monster.Length == 2 ? $", and a {(monster.Length == 3 ? $"{monster[1].Name} and a {monster[2].Name}" : $"{monster[1].Name}")}" : ".")}");
             Console.WriteLine($"You find yourself in a {adjSize}, {adj1}, {adj2} room. You see a {monster.Name} in the corner");
             return monster;
-        }//end MakeRoom()
+        }//end MakeRoom() 
+        #endregion
     }//end class
 }//end namespace

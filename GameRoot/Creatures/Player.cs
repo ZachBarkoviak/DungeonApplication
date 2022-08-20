@@ -69,7 +69,8 @@ namespace DungeonLibrary
             CharacterClass = characterClass;
             Race = race;
             UserWeapon = userWeapon;
-            switch (Race)
+            switch (Race) //TODO make these increase the current stat (you only make one player so when you make it, just put in the base values and let the constructor adjust them)
+                //Just make hit chance increase with the weapon bonus. keep it a default for the character stat.
             {
                 case PlayerRace.Elf:
                     HitChance = 45;
@@ -100,49 +101,31 @@ namespace DungeonLibrary
             {
                 case PlayerClass.Barbarian:
                     MaxHealth = 50;
-                    break;
-
-                case PlayerClass.Rogue:
-                    MaxHealth = 40;
-                    break;
-
-                case PlayerClass.Mage:
-                    MaxHealth = 45;
-                    break;
-
-                case PlayerClass.Depraved:
-                    MaxHealth = 30;
-                    break;
-                #region Secrets
-                case PlayerClass.FrontEndMaster:
-                    MaxHealth = 100;
-                    break;
-                    #endregion
-            }//end MaxHealth switch 
-            Health = health;
-            switch (CharacterClass)
-            {
-                case PlayerClass.Barbarian:
                     Block = 10;
                     break;
 
                 case PlayerClass.Rogue:
+                    MaxHealth = 40;
                     Block = 5;
                     break;
 
                 case PlayerClass.Mage:
+                    MaxHealth = 45;
                     Block = 4;
                     break;
 
                 case PlayerClass.Depraved:
+                    MaxHealth = 30;
                     Block = 2;
                     break;
                 #region Secrets
                 case PlayerClass.FrontEndMaster:
+                    MaxHealth = 100;
                     Block = 15;
                     break;
                     #endregion
-            }//end Block switch 
+            }//end MaxHealth/Block switch 
+            Health = health;
         }
 
         public Player()
