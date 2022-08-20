@@ -13,56 +13,59 @@ namespace Instance
 
 
         //Fields (private datatype _camelCase;)
-        private Monster _roomMonster;
+
         //Props (public datatype PascalCaseOfCamelCase)
         public int RoomID { get; set; }
         public bool IsTrapped { get; set; }
         public bool HasChest { get; set; }
         public Monster RoomMonster { get; set; }
+        public string Description { get; set; }
 
 
         //Constructors (public class(props)) (ctor + tab + tab for default)
-        public Room(int roomID, bool isTrapped, bool hasChest, Monster roomMonster)
+        public Room(int roomID)
         {
             RoomID = roomID;
-            IsTrapped = isTrapped;
-            HasChest = hasChest;
-            RoomMonster = roomMonster;
+            IsTrapped = (new Random().Next(2) == 1 ? true : false);
+            HasChest = (new Random().Next(2) == 1 ? true : false);
+            RoomMonster = Monster.GetMonster();
+            Description = GetRoom();
+            if (roomID == 6)
+            {
+                RoomMonster = Monster.GetBoss();
+            }
         }
 
         public Room()
         {
-            RoomID = 0;
-            IsTrapped = false;
-            HasChest = false;
+            
         }
 
         //Methods
         public override string ToString()
         {
-            Random rand = new Random();
-            string[] size = { "small", "medium", "large" };
-            string[] vibe = { "foul", "musty", "dark", };
-            string[] vibe2 = { "gloomy", "uncomfortable", "dismal" };
-            string adjSize = size[rand.Next(3)];
-            string adj1 = vibe[rand.Next(3)];
-            string adj2 = vibe2[rand.Next(3)];
-            return $"You find yourself in a {adjSize}, {adj1}, {adj2} room. " +
-                $"{(HasChest ? "There is a chest against the far wall\n" : "")}" +
-                $"You see a {RoomMonster.Name} approaching you!";
+            return Description;
         }
 
-        private void GetRoom()
+        private string GetRoom()
         {
-            Random rand = new Random();
-            string[] size = { "small", "medium", "large" };
-            string[] vibe = { "foul", "musty", "dark", };
-            string[] vibe2 = { "gloomy", "uncomfortable", "dismal" };
-            string adjSize = size[rand.Next(3)];
-            string adj1 = vibe[rand.Next(3)];
-            string adj2 = vibe2[rand.Next(3)];
-            RoomMonster.GetMonster();
-            Console.WriteLine($"You find yourself in a {adjSize}, {adj1}, {adj2} room. You see a {RoomMonster.Name} in the corner");
+            string result = "";
+            if (RoomID != 6)
+            {
+                Random rand = new Random();
+                string[] size = { "small", "medium", "large" };
+                string[] vibe = { "foul", "musty", "dark", };
+                string[] vibe2 = { "gloomy", "uncomfortable", "dismal" };
+                string adjSize = size[rand.Next(3)];
+                string adj1 = vibe[rand.Next(3)];
+                string adj2 = vibe2[rand.Next(3)];
+                result = $"You find yourself in a {adjSize}, {adj1}, {adj2} room. You see a {RoomMonster.Name} in the corner";
+            }
+            else
+            {
+                result = "Before you stands (insert cool boss description here)";
+            }
+            return result;
         }
 
 

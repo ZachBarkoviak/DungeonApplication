@@ -11,14 +11,9 @@ namespace DungeonLibrary
     {
         //Fields (private datatype _camelCase;)
         private int _minDamage;
-        private int _maxDamage;
 
         //Props (public datatype PascalCaseOfCamelCase)
-        public int MaxDamage 
-        { 
-            get { return _maxDamage; } 
-            set { _maxDamage = value; } 
-        }
+        public int MaxDamage { get; set; }
         public int MinDamage
         {
             get { return _minDamage; }
@@ -34,14 +29,15 @@ namespace DungeonLibrary
                 }
             }
         }
+        public string Description { get; set; }
 
 
         //Constructors (public class(props)) (ctor + tab + tab for default)
-        public Monster(int maxHealth, int health, string name, int hitChance, int block, int minDamage, int maxDamage) : base(maxHealth, health, name, hitChance, block)
+        public Monster(int maxHealth, int health, string name, int hitChance, int block, int minDamage, int maxDamage, string description) : base(maxHealth, health, name, hitChance, block)
         {
-
             MaxDamage = maxDamage;
             MinDamage = minDamage;
+            Description = description;
         }
 
         public Monster()
@@ -56,102 +52,54 @@ namespace DungeonLibrary
 
         //Methods
 
-        public Monster GetMonster()
+        public static Monster GetMonster()
         {
-            Monster spawn = new Monster();
-            Random rand = new Random();
+            #region Descriptions
+            string dSkeleton = "It's.....It's a moving pile of bones....";
+            string dSpider = "A malevolent 8 legged creature.\n" +
+                                  "When you look closer, you notice venom dripping from it's exposed fangs.";
+            string dZombie = "Did it just say \"BRAINS\"?\n" +
+                                  "It shambles toward you, dragging one foot as it goes.\n" +
+                                  "Bits of flesh and rot fall from its body with every step";
+            string dGoblin = "A small humanoid Creature.\n" +
+                        "It has a shorter-than-human stature, " +
+                        "a long and hooked nose, bat-like ears, and a mischievous demeanor.";
 
-            switch (rand.Next(1, 5))
+            #endregion
+            Monster goblin = new Monster(25, 25, "Goblin", 50, 2, 1, 4, dGoblin);
+            Monster spider = new Monster(15, 15, "Spider", 45, 1, 1, 4, dSpider);
+            Monster zombie = new Monster(30, 30, "Zombie", 55, 4, 2, 5, dZombie);
+            Monster skeleton = new Monster(35, 35, "Skeleton", 60, 5, 2, 6, dSkeleton);
+
+            List<Monster> monsters = new List<Monster>
             {
-                case 1:
-                default:
-                    spawn = new Monster(25, 25, "Goblin", 15, 2, 1, 4);
-                    return spawn;
-                    break;
+                goblin, goblin, goblin,
+                spider, spider, spider, spider, spider,
+                zombie, zombie,
+                skeleton,
+            };
+            return monsters[new Random().Next(monsters.Count())];
 
-                case 2:
-                    spawn = new Monster(15, 15, "Spider", 20, 1, 1, 4);
-                    return spawn;
-                    break;
-
-                case 3:
-                    spawn = new Monster(30, 30, "Zombie", 35, 4, 2, 5);
-                    return spawn;
-                    break;
-
-                case 4:
-                    spawn = new Monster(35, 35, "Skeleton", 35, 5, 2, 6);
-                    return spawn;
-                    break;
-            }//end switch
         }//end GetMonster()
 
-        public Monster GetMonster(int roomNumber)
+        public static Monster GetBoss()
         {
-            Monster spawn = new Monster();
-            Random rand = new Random();
-            spawn = new Monster(100, 100, "Boss", 40, 8, 5, 15);
+            string dBoss = "YOU ARE NOT PREPARED!";
+            Monster spawn = new Monster(100, 100, "Boss", 40, 8, 5, 15, dBoss);          
             return spawn;
-        }//end GetMonster() overload for Boss room spawn
+        }//end GetBoss()
 
         public override string ToString()
         {
-            string description = "";
-            switch (Name)
-            {
-                case "Skeleton":
-                    description = "It's.....It's a moving pile of bones....";
-                    break;
-
-                case "Spider":
-                    description = "A malevolent 8 legged creature.\n" +
-                                  "When you look closer, you notice venom dripping from it's exposed fangs.";
-                    break;
-
-                case "Zombie":
-                    description = "Did it just say \"BRAINS\"?\n" +
-                                  "It shambles toward you, dragging one foot as it goes.\n" +
-                                  "Bits of flesh and rot fall from its body with every step";
-                    break;
-
-                case "Goblin":
-                default:
-                    description = "A small humanoid Creature.\n" +
-                        "It has a shorter-than-human stature, " +
-                        "a long and hooked nose, bat-like ears, and a mischievous demeanor.";
-                    break;
-
-                case "BOSS"://TODO Do something with the Boss stuff. big baddie description
-                    description = @"     YOU, ARE NOT
-                                           PREPARED.";
-                    break;
-            }
-
             return $"Name: {Name}\n" +
                    $"Health: {Health}\n" +
-                   $"Decription:\n{description}";
+                   $"Decription:\n{Description}";
         }//end ToString() override
 
 
-        public int CalcDamage(Player user)//TODO Comment out the WriteLines after testing is complete
+        public override int CalcDamage()//TODO Comment out the WriteLines after testing is complete
         {
-            Random rand = new Random();
-            Console.WriteLine($"Hit Chance: {HitChance}");
-            double chance = rand.Next(1, 101);
-            Console.WriteLine($"Chance Roll: {chance}");
-            int dmg = 0;
-            if (chance <= HitChance)
-            {
-                dmg = rand.Next(MinDamage, MaxDamage + 1);
-                Console.WriteLine("damage before block: " + dmg);
-                Console.WriteLine("Enemy block: " + user.Block);
-                dmg -= user.Block;
-                Console.WriteLine("Damage after block: " + dmg);
-            }
-            else
-            {
-                dmg = 0;
-            }
+            int dmg = new Random().Next(MinDamage, MaxDamage + 1);
             return dmg;
         }//end CalcDamage();  
     }
