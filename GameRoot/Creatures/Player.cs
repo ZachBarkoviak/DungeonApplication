@@ -162,15 +162,15 @@ namespace DungeonLibrary
                    $"{UserWeapon}\n";
         }
 
-       /*public int CalcBlock()         <
-        {                               |
-            return Block;               |
-        }                               |
-                                        |handled both of these in the CalcDamage for a more condensed method.
-        public int CalcHitChance()      |
-        {                               |
-            return HitChance;           |
-        }                               <*/
+       public int CalcBlock()         
+        {                               
+            return Block;               
+        }                               
+                                        
+        public int CalcHitChance()      
+        {                               
+            return HitChance;           
+        }                               
 
         public override int CalcDamage(Monster enemy)
         {

@@ -8,10 +8,10 @@ namespace DungeonLibrary
 {
     public enum PlayerClass
     {
-        Barbarian = 1,
-        Rogue = 2,
-        Mage = 3,
-        Depraved = 4,
-        FrontEndMaster = 5,
+        Barbarian,
+        Rogue,
+        Mage,
+        Depraved,
+        FrontEndMaster,
     }
 }
