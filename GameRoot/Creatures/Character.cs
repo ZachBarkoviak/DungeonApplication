@@ -34,10 +34,6 @@ namespace DungeonLibrary
                 {
                     _health = _maxHealth;
                 }
-                else if (value <= 0)
-                {
-                    _health = 1;
-                }
                 else
                 {
                     _health = value;
@@ -84,17 +80,17 @@ namespace DungeonLibrary
                    $"Defense: {Block}\n";
         }
 
-        public int CalcBlock() //TODO Impliment defence stat to modify the block chance
+        public virtual int CalcBlock() //TODO Impliment defence stat to modify the block chance
         {
             return Block;
         }
 
-        public int CalcHitChance()//TODO impliment chance to hit against current Monster's Block/Defense stat
+        public virtual int CalcHitChance()//TODO impliment chance to hit against current Monster's Block/Defense stat
         {
             return HitChance;
         }
 
-        public virtual int CalcDamage(Monster enemy)
+        public virtual int CalcDamage()
         {
             return 0;
         }//end CalcDamage();    

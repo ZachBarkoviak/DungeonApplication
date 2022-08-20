@@ -14,6 +14,6 @@ namespace DungeonLibrary
         Human = 3,
         Goblin = 4,
         Tiefling = 5,
-        Developer = 6,
+        Developer = 9,
     }
 }

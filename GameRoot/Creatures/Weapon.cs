@@ -10,133 +10,110 @@ namespace DungeonLibrary
     {
         //Fields (private datatype _camelCase;)
         private int _minDamage;
-        private int _maxDamage;
-        private WeaponType _type;
-        private string _name;
-        private int _bonusHitChance;
-        private bool _isTwoHanded;
+        //private int _maxDamage;
+        //private WeaponType _type;
+        //private string _name;
+        //private int _bonusHitChance;
+        //private bool _isTwoHanded;
 
         //Props (public datatype PascalCaseOfCamelCase)
-        public int MaxDamage
-        {
-            get
-            {
-                switch (Type)
-                {
-                    case WeaponType.Battleaxe: //Battleaxe
-                        return 15;
-                        break;
-
-                    case WeaponType.BroadSword: //BroadSword
-                        return 14;
-                        break;
-
-                    case WeaponType.Dagger: //Dagger
-                        return 8;
-                        break;
-
-                    case WeaponType.Rapier: //Rapier
-                        return 7;
-                        break;
-
-                    case WeaponType.Staff: //Staff
-                        return 11;
-                        break;
-
-                    case WeaponType.Wand: //Wand
-                        return 9;
-                        break;
-
-                    case WeaponType.Club: //Club
-                    default:
-                        return 5;
-                        break;
-
-                    case WeaponType.Stick: //Stick
-                        return 7;
-                        break;
-                    #region Secrets
-                    case WeaponType.SpencersMustache:
-                        return 50;
-                        break;
-                    #endregion
-                }
-            }
-        }
+        public int MaxDamage { get; set; }
         public int MinDamage
         {
-            get
+            get { return _minDamage; }
+            set
             {
-                switch (Type)
+                if (value > MaxDamage | value <= 0)
                 {
-                    case WeaponType.Battleaxe: 
-                        return  5;
-                        break;
-
-                    case WeaponType.BroadSword: 
-                        return 6;
-                        break;
-
-                    case WeaponType.Dagger: 
-                        return 2;
-                        break;
-
-                    case WeaponType.Rapier: 
-                        return 3;
-                        break;
-
-                    case WeaponType.Staff: 
-                        return 1;
-                        break;
-
-                    case WeaponType.Wand: 
-                        return 0;
-                        break;
-
-                    case WeaponType.Club: 
-                    default:
-                        return 1;
-                        break;
-
-                    case WeaponType.Stick: 
-                        return 2;
-                        break;
-                    #region Secrets
-                    case WeaponType.SpencersMustache:
-                        return 25;
-                        break;
-                    #endregion
+                    _minDamage = 1;
+                }
+                else
+                {
+                    _minDamage = value;
                 }
             }
         }
-        public string Name
-        {
-            get { return Type.ToString(); }
-
-        }
-        public int BonusHitChance
-        {
-            get { return _bonusHitChance; }
-            set { _bonusHitChance = value; }
-        }
-        public bool IsTwoHanded
-        {
-            get { return _isTwoHanded; }
-            set { _isTwoHanded = value; }
-        }
-
-        public WeaponType Type
-        {
-            get { return _type; }
-            set {_type = value;}
-        }
+        public string Name { get; set; }
+        public int BonusHitChance { get; set; }
+        public bool IsTwoHanded { get; set; }
+        public WeaponType Type { get; set; }
 
         //Constructors (public class(props)) (ctor + tab + tab for default)
-        public Weapon(WeaponType type, /*int maxDamage, int minDamage, string name,*/ int bonusHitChance, bool isTwoHanded)
+        public Weapon(WeaponType type)
         {
             Type = type;
-            BonusHitChance = bonusHitChance;
-            IsTwoHanded = isTwoHanded;//TODO **Maybe do some duel wield options?
+            MaxDamage = 2;
+            MinDamage = 1;
+            Name = "null";
+            BonusHitChance = 0;
+            IsTwoHanded = false;
+            switch (Type)
+            {
+                case WeaponType.Battleaxe:
+                    MaxDamage = 15;
+                    MinDamage = 5;
+                    Name = "Battleaxe";
+                    BonusHitChance = 5;
+                    IsTwoHanded = true;
+                    break;
+                case WeaponType.BusterSword:
+                    MaxDamage = 13;
+                    MinDamage = 8;
+                    Name = "Buster Sword";
+                    BonusHitChance = 4;
+                    IsTwoHanded = true;
+                    break;
+                case WeaponType.Dagger:
+                    MaxDamage = 8;
+                    MinDamage = 2;
+                    Name = "Dagger";
+                    BonusHitChance = 8;
+                    IsTwoHanded = false;
+                    break;
+                case WeaponType.Rapier:
+                    MaxDamage = 7;
+                    MinDamage = 3;
+                    Name = "Rapier";
+                    BonusHitChance = 7;
+                    IsTwoHanded = false;
+                    break;
+                case WeaponType.Staff:
+                    MaxDamage = 11;
+                    MinDamage = 4;
+                    Name = "Staff";
+                    BonusHitChance = 5;
+                    IsTwoHanded = true;
+                    break;
+                case WeaponType.Wand:
+                    MaxDamage = 13;
+                    MinDamage = 1;
+                    Name = "Wand";
+                    BonusHitChance = 3;
+                    IsTwoHanded = false;
+                    break;
+                case WeaponType.Club:
+                    MaxDamage = 5;
+                    MinDamage = 1;
+                    Name = "Club";
+                    BonusHitChance = 3;
+                    IsTwoHanded = true;
+                    break;
+                case WeaponType.Stick:
+                default:
+                    MaxDamage = 4;
+                    MinDamage = 3;
+                    Name = "Stick";
+                    BonusHitChance = 7;
+                    IsTwoHanded = false;
+                    break;
+                case WeaponType.SpencersMustache:
+                    MaxDamage = 50;
+                    MinDamage = 15;
+                    Name = "Spencer's Mustache";
+                    BonusHitChance = 10;
+                    IsTwoHanded = false;
+                    break;
+            }
         }
 
         //Methods

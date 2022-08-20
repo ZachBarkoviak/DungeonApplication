@@ -72,77 +72,62 @@ namespace DungeonLibrary
             switch (Race)
             {
                 case PlayerRace.Elf:
-                    HitChance = 45;
+                    HitChance += 5;
                     break;
 
                 case PlayerRace.Orc:
-                    HitChance = 35;
+                    HitChance -= 4;
+                    Block += 5;
                     break;
 
                 case PlayerRace.Human:
-                    HitChance = 40;
+                    HitChance += 2;
                     break;
 
                 case PlayerRace.Goblin:
-                    HitChance = 25;
+                    MaxHealth -= 5;
+                    Health -= 5;
                     break;
 
                 case PlayerRace.Tiefling:
-                    HitChance = 25;
+                    HitChance += 5;
+                    Block += 2;
                     break;
                 #region Secrets
                 case PlayerRace.Developer:
-                    HitChance = 50;
+                    HitChance += 5;
                     break;
                     #endregion
             }//end HitChance switch
             switch (CharacterClass)
             {
                 case PlayerClass.Barbarian:
-                    MaxHealth = 50;
+                    MaxHealth += 10;
+                    Health += 10;
+                    Block += 5;
                     break;
 
                 case PlayerClass.Rogue:
-                    MaxHealth = 40;
+                    HitChance += 8;
                     break;
 
                 case PlayerClass.Mage:
-                    MaxHealth = 45;
+                    MaxHealth -= 5;
+                    Health -= 5;
                     break;
 
                 case PlayerClass.Depraved:
-                    MaxHealth = 30;
+                    MaxHealth -= 20;
+                    Health -= 20;
                     break;
                 #region Secrets
                 case PlayerClass.FrontEndMaster:
-                    MaxHealth = 100;
+                    MaxHealth += 100;
+                    Health += 100;
+                    Block += 10;
                     break;
                     #endregion
             }//end MaxHealth switch 
-            Health = health;
-            switch (CharacterClass)
-            {
-                case PlayerClass.Barbarian:
-                    Block = 10;
-                    break;
-
-                case PlayerClass.Rogue:
-                    Block = 5;
-                    break;
-
-                case PlayerClass.Mage:
-                    Block = 4;
-                    break;
-
-                case PlayerClass.Depraved:
-                    Block = 2;
-                    break;
-                #region Secrets
-                case PlayerClass.FrontEndMaster:
-                    Block = 15;
-                    break;
-                    #endregion
-            }//end Block switch 
         }
 
         public Player()
@@ -154,46 +139,21 @@ namespace DungeonLibrary
 
         public override string ToString()
         {
-            return $"Name: {Name}\n" +
-                   $"Health: {Health} / {MaxHealth}\n" +
-                   $"Defense: {Block}\n" +
+            return base.ToString() +
                    $"Race: {Race}\n" +
                    $"Class: {CharacterClass}\n" +
                    $"{UserWeapon}\n";
         }
-
-       public int CalcBlock()         
-        {                               
-            return Block;               
-        }                               
+                         
                                         
         public int CalcHitChance()      
         {                               
-            return HitChance;           
+            return HitChance + UserWeapon.BonusHitChance;           
         }                               
 
-        public override int CalcDamage(Monster enemy)
-        {
-            Weapon item = UserWeapon;
-            Random rand = new Random();
-            Console.WriteLine($"Hit Chance: {HitChance}");
-            Console.WriteLine($"Bonus: {item.BonusHitChance}");
-            double chance = rand.Next(1, 101);
-            Console.WriteLine($"Chance Roll: {chance}");
-            int dmg = 0;
-            if (chance <= (HitChance + item.BonusHitChance))
-            {
-                dmg = rand.Next(item.MinDamage, item.MaxDamage + 1);
-                Console.WriteLine("damage before block: " + dmg);
-                Console.WriteLine("Enemy block: " + enemy.Block);
-                dmg -= enemy.Block;
-                Console.WriteLine("Damage after block: " + dmg);
-            }
-            else
-            {
-                dmg = 0;
-            }
-            return dmg;
+        public override int CalcDamage()
+        {            
+            return new Random().Next(UserWeapon.MinDamage, UserWeapon.MaxDamage + 1);
         }//end CalcDamage();    
     }
 }
