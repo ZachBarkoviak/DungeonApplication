@@ -61,8 +61,10 @@ namespace Instance
 
                         case ConsoleKey.B:
                             Console.Clear();
-                            Console.WriteLine($"The {room.RoomMonster.Name} swipes at you as you run.\n");
+                            Console.WriteLine($"The {room.RoomMonster.Name} swipes at you as you run.\n" +
+                                              $"Press any key to continue. Coward...");
                             Builder.Attack(room.RoomMonster, hero);
+                            Console.ReadKey(true);
                             encounterExit = true;
                             break;
 
@@ -93,6 +95,10 @@ namespace Instance
                 Console.Write(character);
                 Thread.Sleep(15);
             }
+            #region Press to quit
+            Console.WriteLine("\n\n\nPlease enter a key to exit the application.");
+            Console.ReadKey(true);
+            #endregion
         }//end Main()
 
         static bool Encounter() //TODO make Encounter() accept a monster as param

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DungeonLibrary
 {
-    public class Player : Character
+    public sealed class Player : Character
     {
 
         //Fields (_camelCase)
@@ -96,6 +96,7 @@ namespace DungeonLibrary
                 #region Secrets
                 case PlayerRace.Developer:
                     HitChance += 5;
+                    Name = "Spencer";
                     break;
                     #endregion
             }//end HitChance switch

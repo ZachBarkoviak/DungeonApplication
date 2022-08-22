@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DungeonLibrary
 {
-    public class Character
+    public abstract class Character
     {
 
         //Fields (_camelCase)
