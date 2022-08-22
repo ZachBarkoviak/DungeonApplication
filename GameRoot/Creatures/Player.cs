@@ -15,6 +15,7 @@ namespace DungeonLibrary
         private PlayerRace _race;
         private PlayerClass _characterClass;
         private Weapon _userWeapon;
+        private List<Item> _inventory;
 
 
 
@@ -59,6 +60,7 @@ namespace DungeonLibrary
             //}
             #endregion
         }
+        public List<Item> Inventory { get; set; }
 
 
 
@@ -69,6 +71,7 @@ namespace DungeonLibrary
             CharacterClass = characterClass;
             Race = race;
             UserWeapon = userWeapon;
+            Inventory = GetInventory();
             switch (Race)
             {
                 case PlayerRace.Elf:
@@ -143,7 +146,8 @@ namespace DungeonLibrary
             return base.ToString() +
                    $"Race: {Race}\n" +
                    $"Class: {CharacterClass}\n" +
-                   $"{UserWeapon}\n";
+                   $"{UserWeapon}\n" +
+                   $"***** Inventory *****\n"; //No idea
         }
                          
                                         
@@ -156,5 +160,32 @@ namespace DungeonLibrary
         {            
             return new Random().Next(UserWeapon.MinDamage, UserWeapon.MaxDamage + 1);
         }//end CalcDamage();    
+
+        public List<Item> GetInventory()
+        {
+            List<Item> inv = new List<Item>();
+            switch (CharacterClass)
+            {
+                case PlayerClass.Barbarian:
+                    inv.Add(Potion.GetPotion());
+                    inv.Add(Potion.GetPotion());
+                    break;
+                case PlayerClass.Rogue:
+                    inv.Add(Potion.GetPotion());
+
+                    break;
+                case PlayerClass.Mage:
+                    inv.Add(Potion.GetPotion());
+
+                    break;
+                case PlayerClass.Depraved:
+                default:
+                    break;
+                case PlayerClass.FrontEndMaster:
+                    inv.Add(new Potion("The Sauce", 4, Collections.ItemType.Potion, 15));
+                    break;
+            }
+            return inv;
+        }
     }
 }

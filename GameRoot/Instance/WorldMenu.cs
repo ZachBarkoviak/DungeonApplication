@@ -49,6 +49,10 @@ namespace Instance
                             Builder.Battle(hero, room.RoomMonster);
                             if(room.RoomMonster.Health <= 0)
                             {
+                                if (room.HasChest)
+                                {
+                                    //display reward options
+                                }
                                 roomCount++;
                                 Console.ForegroundColor = ConsoleColor.Green;
                                 Console.WriteLine($"You have vanquished the {room.RoomMonster.Name}!");
