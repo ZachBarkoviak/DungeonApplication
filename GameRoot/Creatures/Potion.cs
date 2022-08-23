@@ -13,7 +13,7 @@ namespace DungeonLibrary
 
         public int HealthAdjust { get; }
 
-        public Potion(string name, int amount, ItemType type, int healthAdjust) : base(name, amount, type)
+        public Potion(string name, int amount, ItemType type, string description, int healthAdjust) : base(name, amount, type, description)
         {
             HealthAdjust = healthAdjust;
         }
@@ -21,10 +21,10 @@ namespace DungeonLibrary
         public static Potion GetPotion()
         {
             Random rand = new Random();
-            Potion healing = new Potion("A glowing gold liquid.", 1, ItemType.Potion, rand.Next(1,6));
-            Potion mystery = new Potion("A mysterious gray liquid", 1, ItemType.Potion,
-                (rand.Next(2) == 1 ? rand.Next(3) : rand.Next(-1,-5)));
-            Potion damage = new Potion("A thick red liquid.", 1, ItemType.Potion, rand.Next(-1, -7));
+            Potion healing = new Potion("Potion of minor healing", 1, ItemType.Potion, "A glowing gold liquid.", rand.Next(1,6));
+            Potion mystery = new Potion("unknown", 1, ItemType.Potion, "A mysterious gray liquid",
+                (rand.Next(2) == 1 ? rand.Next(1, 5) : rand.Next(-5,-1)));
+            Potion damage = new Potion("Potion of sacrifice", 1, ItemType.Potion, "A thick red liquid.", rand.Next(-7, -1));
             
             List<Potion> potions = new List<Potion>
             {
@@ -37,6 +37,14 @@ namespace DungeonLibrary
         public override string ToString()
         {
             return base.ToString();
+        }
+
+        public override void UseItem(Player player)
+        {
+            Console.Clear();
+            Console.Write($"Your health has {(HealthAdjust > 0 ? "increased" : "decreased")} by: {Math.Abs(HealthAdjust)} | ");
+            player.Health += HealthAdjust;
+            Console.WriteLine($"Your Current Health: {player.Health}");
         }
 
     }

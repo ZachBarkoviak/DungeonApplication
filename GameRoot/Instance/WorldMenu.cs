@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using DungeonLibrary;
@@ -10,15 +12,13 @@ namespace Instance
     internal class WorldMenu
     {
         static void Main(string[] args)
-        {
-
+        {     
             Console.Title = "The Dungeon of Fungeon";
             Console.WriteLine("Welcome to the Dungeon!\nPress any key to start creating your character...");
             Console.ReadKey(true);
             Console.Clear();
             Player hero = Builder.MakePlayer();
             Console.Clear();
-
 
             bool worldExit = false;
             int roomCount = 1;            
@@ -35,9 +35,10 @@ namespace Instance
                     Console.WriteLine($"\nThe {room.RoomMonster.Name} stands before you...");
                     Console.WriteLine("What are you going to do?" +
                                         "\nA) Attack" +
-                                        "\nB) Run Away" +
+                                        "\nR) Run Away" +
+                                        "\nI) Use Item" +
                                         "\nC) Character Info" +
-                                        "\nD) Monster Info" +
+                                        "\nM) Monster Info" +
                                         "\nE) Exit" +
                                         $"\nRoom Number: {roomCount}");
                     ConsoleKey userAction = Console.ReadKey(true).Key;
@@ -61,9 +62,14 @@ namespace Instance
                                 Console.ReadKey(true);
                                 encounterExit = true;
                             }
+                            else if (hero.Health <=0)
+                            {
+                                Console.WriteLine("You DIED!");
+                                worldExit = true;
+                            }
                             break;
 
-                        case ConsoleKey.B:
+                        case ConsoleKey.R:
                             Console.Clear();
                             Console.WriteLine($"The {room.RoomMonster.Name} swipes at you as you run.\n" +
                                               $"Press any key to continue. Coward...");
@@ -71,13 +77,27 @@ namespace Instance
                             Console.ReadKey(true);
                             encounterExit = true;
                             break;
+                        case ConsoleKey.I:
+                            Console.Clear();
+                            Builder.ItemSelect(hero);
+                            if (hero.Health <= 0)
+                            {
+                                Console.WriteLine("You DIED!");
+                                worldExit = true;
+                            }
+                            break;
 
                         case ConsoleKey.C:
                             Console.Clear();
                             Console.WriteLine(hero);
+                            hero.DisplayInventory();
+                            if (hero.Inventory.Count() == 0)
+                            {
+                                Console.WriteLine("EMPTY POCKETSES");
+                            }
                             break;
 
-                        case ConsoleKey.D:
+                        case ConsoleKey.M:
                             Console.Clear();
                             Console.WriteLine(room.RoomMonster);
                             break;
