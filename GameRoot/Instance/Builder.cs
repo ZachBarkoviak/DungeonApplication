@@ -6,6 +6,7 @@ using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using DungeonLibrary;
+using DungeonLibrary.Collections;
 
 namespace Instance
 {
@@ -209,16 +210,21 @@ namespace Instance
         public static void ItemSelect(Player player)
         {
             int index = 0;
+            int itemIndex = 0;
             foreach (Item item in player.Inventory)
             {
-                Console.WriteLine($"{index+ 1}) {item}");
-                index++;
+                if (item.IsUseable)
+                {
+                    Console.WriteLine($"{index + 1}) {item}\n");
+                    index++;
+                }
+                itemIndex++;
             }
-            Console.WriteLine("Which item would you like to use?: ");
+            Console.WriteLine("Which item would you like to use?: \nPress \"E\" to exit... ");
             char input = Console.ReadKey(true).KeyChar;
             if (input == 'E')
             {
-                
+                Console.Clear();
             }
             else
             {
@@ -226,16 +232,104 @@ namespace Instance
                 {
                     if (input == Convert.ToChar((i+1).ToString()))
                     {
-                        (player.Inventory[i]).UseItem(player);
-                        if (player.Inventory[i].Amount == 1)
+                        (player.Inventory[itemIndex]).UseItem(player);
+                        if (player.Inventory[itemIndex].Amount == 1)
                         {
                             player.Inventory.Remove(player.Inventory[i]);
+                        }
+                        else if (player.Inventory[itemIndex].Amount > 1)
+                        {
+                            player.Inventory[itemIndex].Amount--;
                         }
                     }
                 }
             }
+        }//end UseItem()
+
+        public static void ItemSelect(List<Item> list, Player player)
+        {
+            int index = 0;
+            foreach (Item item in list)
+            {
+                Console.WriteLine($"{index + 1}) {item}");
+                index++;
+            }
+            Console.WriteLine("Select your item: ");
+            char input = Console.ReadKey(true).KeyChar;
+            if (input == 'E')
+            {
+                Console.Clear();
+            }
+            else
+            {
+                for (int i = 0; i < index; i++)
+                {
+                    if (input == Convert.ToChar((i + 1).ToString()))
+                    {
+                        if (list[i].Type == ItemType.Armor)
+                        {
+                            Console.Write("Would you like to equip this item? Y/N: ");
+                            if (Console.ReadKey().Key == ConsoleKey.Y)
+                            {
+                                switch (((Armor)list[i]).Slot)
+                                {
+                                    case ArmorSlot.Head:
+                                        player.Head = (Armor)list[i];
+                                        break;
+
+                                    case ArmorSlot.Chest:
+                                        player.Chest = (Armor)list[i];
+                                        break;
+
+                                    case ArmorSlot.Legs:
+                                        player.Legs = (Armor)list[i];
+                                        break;
+                                }
+                            }
+                            else
+                            {
+                                player.Inventory.Add(list[i]);
+                            }
+                        }
+                    }
+                }
+            }
+        }//end ItemSelect() Overload for adding items to inventory
+
+        public static List<Item> CreateChest()
+        {
+            Random rand = new Random();
+            List<Item> list = new List<Item>();
+            list.Add(Potion.GetPotion());
+            list.Add(Armor.GetArmor());
+            list.Add(Armor.GetArmor());
+
+            return list;
+
         }
 
+        public static void SortInventory(List<Item> list)
+        {
+            int index = list.Count();
+            for (int i = 0; i < index; i++)
+            {
+                for (int j = 0; j < index; j++)
+                {
+                    if (j == i)
+                    {
+                        continue;
+                    }
+                    else if (list[i].Name == list[j].Name)
+                    {
+                        list.Remove(list[j]);
+                        j = 0;
+                        list[i].Amount++;
+                        index = list.Count();
+                    }
+                }
+            }
+
+        }
 
     }//end class
 }//end namespace

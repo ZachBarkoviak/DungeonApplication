@@ -13,13 +13,15 @@ namespace DungeonLibrary
         public int Amount { get; set; }
         public ItemType Type { get; set; }
         public string Description { get; set; }
+        public bool IsUseable { get; set; }
 
-        public Item(string name, int amount, ItemType type, string description)
+        public Item(string name, int amount, ItemType type, string description, bool isUseable)
         {
             Name = name;
             Amount = amount;
             Type = type;
             Description = description;
+            IsUseable = isUseable;
         }
 
         public override string ToString()

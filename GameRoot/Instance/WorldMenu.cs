@@ -12,7 +12,7 @@ namespace Instance
     internal class WorldMenu
     {
         static void Main(string[] args)
-        {     
+        {
             Console.Title = "The Dungeon of Fungeon";
             Console.WriteLine("Welcome to the Dungeon!\nPress any key to start creating your character...");
             Console.ReadKey(true);
@@ -32,6 +32,8 @@ namespace Instance
                 Console.WriteLine(room);
                 do
                 {
+                    Console.WriteLine("Chest: " + room.HasChest);
+                    Console.WriteLine("Trap: " + room.IsTrapped);
                     Console.WriteLine($"\nThe {room.RoomMonster.Name} stands before you...");
                     Console.WriteLine("What are you going to do?" +
                                         "\nA) Attack" +
@@ -40,7 +42,8 @@ namespace Instance
                                         "\nC) Character Info" +
                                         "\nM) Monster Info" +
                                         "\nE) Exit" +
-                                        $"\nRoom Number: {roomCount}");
+                                        $"\nRoom Number: {roomCount}" +
+                                        "\nT) Test Case");
                     ConsoleKey userAction = Console.ReadKey(true).Key;
 
                     switch (userAction)
@@ -50,14 +53,23 @@ namespace Instance
                             Builder.Battle(hero, room.RoomMonster);
                             if(room.RoomMonster.Health <= 0)
                             {
-                                if (room.HasChest)
-                                {
-                                    //display reward options
-                                }
                                 roomCount++;
                                 Console.ForegroundColor = ConsoleColor.Green;
-                                Console.WriteLine($"You have vanquished the {room.RoomMonster.Name}!");
+                                Console.WriteLine($"You have vanquished the {room.RoomMonster.Name}!\n");
                                 Console.ResetColor();
+                                if (room.HasChest)
+                                {
+                                    if (room.IsTrapped)
+                                    {
+                                        //TODO handle if the chest is trapped or not. maybe a mini game or something to disarm it
+                                    }
+                                    else
+                                    {
+                                         //TODO roll prize table
+                                        Console.WriteLine("You find a chest! Inside there is: \n");
+                                        Builder.ItemSelect(Builder.CreateChest(), hero);
+                                    }
+                                }
                                 Console.WriteLine("Press and key to enter the next room...");
                                 Console.ReadKey(true);
                                 encounterExit = true;
@@ -78,12 +90,20 @@ namespace Instance
                             encounterExit = true;
                             break;
                         case ConsoleKey.I:
-                            Console.Clear();
-                            Builder.ItemSelect(hero);
-                            if (hero.Health <= 0)
+                            if (hero.Inventory.Count() == 0)
                             {
-                                Console.WriteLine("You DIED!");
-                                worldExit = true;
+                                Console.Clear();
+                                Console.WriteLine("You don't have any items!\n");
+                            }
+                            else
+                            {
+                                Console.Clear();
+                                Builder.ItemSelect(hero);
+                                if (hero.Health <= 0)
+                                {
+                                    Console.WriteLine("You DIED!");
+                                    worldExit = true;
+                                }
                             }
                             break;
 
@@ -93,7 +113,7 @@ namespace Instance
                             hero.DisplayInventory();
                             if (hero.Inventory.Count() == 0)
                             {
-                                Console.WriteLine("EMPTY POCKETSES");
+                                Console.WriteLine("EMPTY POCKETSES\n");
                             }
                             break;
 
@@ -106,10 +126,27 @@ namespace Instance
                             worldExit = true;
                             break;
 
+                        case ConsoleKey.T://**************************************** TEST CASE ******************************************
+                            //hero.DisplayGear();
+                            Console.Clear();
+                            hero.Inventory.Add(Potion.GetPotion());
+                            hero.Inventory.Add(Potion.GetPotion());
+                            hero.Inventory.Add(Potion.GetPotion());
+                            hero.Inventory.Add(Potion.GetPotion());
+                            hero.DisplayInventory();
+                            Console.WriteLine("Inv count: " + hero.Inventory.Count());
+                            Console.ReadKey();
+                            Builder.SortInventory(hero.Inventory);
+                            Console.WriteLine("Inv count after sort: " + hero.Inventory.Count());                            
+                            hero.DisplayInventory();
+                            Console.ReadLine();
+                            break;
+
                         default:
                             Console.Clear();
                             break;
                     }
+                    
                 } while (!encounterExit && !worldExit);//end Encounter while
             } while (!worldExit); //end World DoWhile
 
