@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DungeonLibrary.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
@@ -62,7 +63,9 @@ namespace DungeonLibrary
             #endregion
         }
         public List<Item> Inventory { get; set; }
-
+        public Armor Head { get; set; }
+        public Armor Chest { get; set; }
+        public Armor Legs { get; set; }
 
 
 
@@ -213,6 +216,15 @@ namespace DungeonLibrary
                    $"{UserWeapon}";
 
         }
+
+        public void DisplayGear()
+        {
+            Console.Clear();
+
+            Console.WriteLine($"Head: {(Head == null ? "Empty" : Head)}\n" +
+                              $"Chest: {(Chest == null ? "Empty" : Chest)}\n" +
+                              $"Legs: {(Legs == null ? "Empty" : Legs)}\n");
+        }
                          
                                         
         public int CalcHitChance()      
@@ -246,7 +258,7 @@ namespace DungeonLibrary
                 default:
                     break;
                 case PlayerClass.FrontEndMaster:
-                    inv.Add(new Potion("The Sauce", 4, Collections.ItemType.Potion, "A vibrant liquid that swirls with power", 15));
+                    inv.Add(new Potion("The Sauce", 4, Collections.ItemType.Potion, "A vibrant liquid that swirls with power", true, 15));
                     break;
             }
             return inv;
@@ -257,7 +269,25 @@ namespace DungeonLibrary
             Console.WriteLine("***** Inventory *****");
             foreach (Item item in Inventory)
             {
-                Console.WriteLine(item);
+                Console.WriteLine(item + "\n");
+            }
+        }
+
+        public void Equip(Armor piece)
+        {
+            switch (piece.Slot)
+            {
+                case ArmorSlot.Head:
+                    Head = piece;
+                    break;
+
+                case ArmorSlot.Chest:
+                    Chest = piece;
+                    break;
+
+                case ArmorSlot.Legs:
+                    Legs = piece;
+                    break;
             }
         }
     }

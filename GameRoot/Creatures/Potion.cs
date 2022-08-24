@@ -13,7 +13,7 @@ namespace DungeonLibrary
 
         public int HealthAdjust { get; }
 
-        public Potion(string name, int amount, ItemType type, string description, int healthAdjust) : base(name, amount, type, description)
+        public Potion(string name, int amount, ItemType type, string description, bool isUseable, int healthAdjust) : base(name, amount, type, description, isUseable)
         {
             HealthAdjust = healthAdjust;
         }
@@ -21,10 +21,10 @@ namespace DungeonLibrary
         public static Potion GetPotion()
         {
             Random rand = new Random();
-            Potion healing = new Potion("Potion of minor healing", 1, ItemType.Potion, "A glowing gold liquid.", rand.Next(1,6));
-            Potion mystery = new Potion("unknown", 1, ItemType.Potion, "A mysterious gray liquid",
+            Potion healing = new Potion("Potion of minor healing", 1, ItemType.Potion, "A glowing gold liquid.", true, rand.Next(1,6));
+            Potion mystery = new Potion("unknown", 1, ItemType.Potion, "A mysterious gray liquid", true,
                 (rand.Next(2) == 1 ? rand.Next(1, 5) : rand.Next(-5,-1)));
-            Potion damage = new Potion("Potion of sacrifice", 1, ItemType.Potion, "A thick red liquid.", rand.Next(-7, -1));
+            Potion damage = new Potion("Potion of sacrifice", 1, ItemType.Potion, "A thick red liquid.", true, rand.Next(-7, -1));
             
             List<Potion> potions = new List<Potion>
             {
@@ -36,7 +36,8 @@ namespace DungeonLibrary
         }
         public override string ToString()
         {
-            return base.ToString();
+            //return base.ToString();
+            return $"Name: {Name}\nQTY: {Amount}";
         }
 
         public override void UseItem(Player player)
