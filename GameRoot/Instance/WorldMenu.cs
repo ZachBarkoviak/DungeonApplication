@@ -110,6 +110,7 @@ namespace Instance
                         case ConsoleKey.C:
                             Console.Clear();
                             Console.WriteLine(hero);
+                            Builder.SortInventory(hero.Inventory);
                             hero.DisplayInventory();
                             if (hero.Inventory.Count() == 0)
                             {
