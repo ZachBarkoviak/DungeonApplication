@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace DungeonLibrary
 {
@@ -15,6 +16,7 @@ namespace DungeonLibrary
         private PlayerRace _race;
         private PlayerClass _characterClass;
         private Weapon _userWeapon;
+        private List<Item> _inventory;
 
 
 
@@ -59,6 +61,7 @@ namespace DungeonLibrary
             //}
             #endregion
         }
+        public List<Item> Inventory { get; set; }
 
 
 
@@ -69,6 +72,7 @@ namespace DungeonLibrary
             CharacterClass = characterClass;
             Race = race;
             UserWeapon = userWeapon;
+            Inventory = GetInventory();
             switch (Race)
             {
                 case PlayerRace.Elf:
@@ -133,7 +137,70 @@ namespace DungeonLibrary
 
         public Player()
         {
+            CharacterClass = PlayerClass.Barbarian;
+            Race = PlayerRace.Elf;
+            UserWeapon = new Weapon(WeaponType.Battleaxe);
+            Inventory = GetInventory();
+            switch (Race)
+            {
+                case PlayerRace.Elf:
+                    HitChance += 5;
+                    break;
 
+                case PlayerRace.Orc:
+                    HitChance -= 4;
+                    Block += 5;
+                    break;
+
+                case PlayerRace.Human:
+                    HitChance += 2;
+                    break;
+
+                case PlayerRace.Goblin:
+                    MaxHealth -= 5;
+                    Health -= 5;
+                    break;
+
+                case PlayerRace.Tiefling:
+                    HitChance += 5;
+                    Block += 2;
+                    break;
+                #region Secrets
+                case PlayerRace.Developer:
+                    HitChance += 5;
+                    Name = "Spencer";
+                    break;
+                    #endregion
+            }//end HitChance switch
+            switch (CharacterClass)
+            {
+                case PlayerClass.Barbarian:
+                    MaxHealth += 10;
+                    Health += 10;
+                    Block += 5;
+                    break;
+
+                case PlayerClass.Rogue:
+                    HitChance += 8;
+                    break;
+
+                case PlayerClass.Mage:
+                    MaxHealth -= 5;
+                    Health -= 5;
+                    break;
+
+                case PlayerClass.Depraved:
+                    MaxHealth -= 20;
+                    Health -= 20;
+                    break;
+                #region Secrets
+                case PlayerClass.FrontEndMaster:
+                    MaxHealth += 100;
+                    Health += 100;
+                    Block += 10;
+                    break;
+                    #endregion
+            }//end MaxHealth switch 
         }
 
         //Methods
@@ -143,7 +210,8 @@ namespace DungeonLibrary
             return base.ToString() +
                    $"Race: {Race}\n" +
                    $"Class: {CharacterClass}\n" +
-                   $"{UserWeapon}\n";
+                   $"{UserWeapon}";
+
         }
                          
                                         
@@ -156,5 +224,41 @@ namespace DungeonLibrary
         {            
             return new Random().Next(UserWeapon.MinDamage, UserWeapon.MaxDamage + 1);
         }//end CalcDamage();    
+
+        public List<Item> GetInventory()
+        {
+            List<Item> inv = new List<Item>();
+            switch (CharacterClass)
+            {
+                case PlayerClass.Barbarian:
+                    inv.Add(Potion.GetPotion());
+                    inv.Add(Potion.GetPotion());
+                    break;
+                case PlayerClass.Rogue:
+                    inv.Add(Potion.GetPotion());
+
+                    break;
+                case PlayerClass.Mage:
+                    inv.Add(Potion.GetPotion());
+
+                    break;
+                case PlayerClass.Depraved:
+                default:
+                    break;
+                case PlayerClass.FrontEndMaster:
+                    inv.Add(new Potion("The Sauce", 4, Collections.ItemType.Potion, "A vibrant liquid that swirls with power", 15));
+                    break;
+            }
+            return inv;
+        }
+
+        public void DisplayInventory()
+        {
+            Console.WriteLine("***** Inventory *****");
+            foreach (Item item in Inventory)
+            {
+                Console.WriteLine(item);
+            }
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Metadata;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
 using DungeonLibrary;
@@ -202,6 +203,37 @@ namespace Instance
             }
             Console.WriteLine("Player health: " + player.Health);
             Console.WriteLine("Monster health: " + monster.Health);
+        }
+
+
+        public static void ItemSelect(Player player)
+        {
+            int index = 0;
+            foreach (Item item in player.Inventory)
+            {
+                Console.WriteLine($"{index+ 1}) {item}");
+                index++;
+            }
+            Console.WriteLine("Which item would you like to use?: ");
+            char input = Console.ReadKey(true).KeyChar;
+            if (input == 'E')
+            {
+                
+            }
+            else
+            {
+                for (int i = 0; i < index; i++)
+                {
+                    if (input == Convert.ToChar((i+1).ToString()))
+                    {
+                        (player.Inventory[i]).UseItem(player);
+                        if (player.Inventory[i].Amount == 1)
+                        {
+                            player.Inventory.Remove(player.Inventory[i]);
+                        }
+                    }
+                }
+            }
         }
 
 
