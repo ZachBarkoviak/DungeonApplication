@@ -66,10 +66,10 @@ namespace DungeonLibrary
                         "a long and hooked nose, bat-like ears, and a mischievous demeanor.";
 
             #endregion
-            Monster goblin = new Monster(25, 25, "Goblin", 50, 2, 1, 4, dGoblin);
-            Monster spider = new Monster(15, 15, "Spider", 45, 1, 1, 4, dSpider);
-            Monster zombie = new Monster(30, 30, "Zombie", 55, 4, 2, 5, dZombie);
-            Monster skeleton = new Monster(35, 35, "Skeleton", 60, 5, 2, 6, dSkeleton);
+            Monster goblin = new Monster(30, 30, "Goblin", 50, 5, 2, 4, dGoblin);
+            Monster spider = new Monster(20, 20, "Spider", 45, 4, 2, 5, dSpider);
+            Monster zombie = new Monster(35, 35, "Zombie", 55, 7, 2, 6, dZombie);
+            Monster skeleton = new Monster(40, 40, "Skeleton", 60, 8, 3, 8, dSkeleton);
 
             List<Monster> monsters = new List<Monster>
             {

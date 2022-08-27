@@ -56,7 +56,27 @@ namespace DungeonLibrary
         }
 
 
-        public override void UseItem(Player player){}
+        public override void UseItem(Player player)
+        {
+            Console.Write("Would you like to equip this item? Y/N: ");
+            if (Console.ReadKey().Key == ConsoleKey.Y)
+            {
+                switch (Slot)
+                {
+                    case ArmorSlot.Head:
+                        player.Head = new Armor(Name, Amount, Type, Description, IsUseable, Material);
+                        break;
+
+                    case ArmorSlot.Chest:
+                        player.Chest = new Armor(Name, Amount, Type, Description, IsUseable, Material);
+                        break;
+
+                    case ArmorSlot.Legs:
+                        player.Legs = new Armor(Name, Amount, Type, Description, IsUseable, Material);
+                        break;
+                }
+            }
+        }
 
         public override string ToString()
         {

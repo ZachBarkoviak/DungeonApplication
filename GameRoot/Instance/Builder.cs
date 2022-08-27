@@ -37,7 +37,7 @@ namespace Instance
                         }
                         else
                         {
-                            Console.WriteLine($"{index+1}) {race}");
+                            Console.WriteLine($"{index + 1}) {race}");
                             index++;
                         }
                     }
@@ -72,7 +72,7 @@ namespace Instance
                         }
                         else
                         {
-                            Console.WriteLine($"{index+1}) {item}");
+                            Console.WriteLine($"{index + 1}) {item}");
                             index++;
                         }
                     }
@@ -169,17 +169,17 @@ namespace Instance
                     default:
                         Console.Clear();
                         break;
-                } 
+                }
             } while (!characterCreateExit);
             return user;
 
         }//end MakePlayer() defaults: Player(40, 40, pName, 60, 5, pClass, pWeapon, pRace);
-                                                                             //max, min,    , hit, block, ...
+                                          //max, min,    , hit, block, ...
 
         public static void Attack(Character attacker, Character defender)
         {
             int roll = new Random().Next(1, 101);
-            if (roll <=(attacker.CalcHitChance() - defender.CalcBlock()))//hit
+            if (roll <= (attacker.CalcHitChance() - defender.CalcBlock()))//hit
             {
                 int damage = attacker.CalcDamage();
                 Console.ForegroundColor = ConsoleColor.Red;
@@ -198,7 +198,7 @@ namespace Instance
         public static void Battle(Player player, Monster monster)
         {
             Attack(player, monster);
-            if(monster.Health > 0)
+            if (monster.Health > 0)
             {
                 Attack(monster, player);
             }
@@ -208,17 +208,12 @@ namespace Instance
 
 
         public static void ItemSelect(Player player)
-        {
+        {          
             int index = 0;
-            int itemIndex = 0;
             foreach (Item item in player.Inventory)
             {
-                if (item.IsUseable)
-                {
                     Console.WriteLine($"{index + 1}) {item}\n");
                     index++;
-                }
-                itemIndex++;
             }
             Console.WriteLine("Which item would you like to use?: \nPress \"E\" to exit... ");
             char input = Console.ReadKey(true).KeyChar;
@@ -230,16 +225,16 @@ namespace Instance
             {
                 for (int i = 0; i < index; i++)
                 {
-                    if (input == Convert.ToChar((i+1).ToString()))
+                    if (input == Convert.ToChar((i + 1).ToString()))
                     {
-                        (player.Inventory[itemIndex]).UseItem(player);
-                        if (player.Inventory[itemIndex].Amount == 1)
+                        (player.Inventory[i]).UseItem(player);
+                        if (player.Inventory[i].Amount == 1)
                         {
                             player.Inventory.Remove(player.Inventory[i]);
                         }
-                        else if (player.Inventory[itemIndex].Amount > 1)
+                        else if (player.Inventory[i].Amount > 1)
                         {
-                            player.Inventory[itemIndex].Amount--;
+                            player.Inventory[i].Amount--;
                         }
                     }
                 }
@@ -264,33 +259,31 @@ namespace Instance
             {
                 for (int i = 0; i < index; i++)
                 {
-                    if (input == Convert.ToChar((i + 1).ToString()))
+                    if (input == Convert.ToChar((i + 1).ToString()) && list[i].Type == ItemType.Armor)
                     {
-                        if (list[i].Type == ItemType.Armor)
+                        Console.Write("Would you like to equip this item? Y/N: ");
+                        if (Console.ReadKey().Key == ConsoleKey.Y)
                         {
-                            Console.Write("Would you like to equip this item? Y/N: ");
-                            if (Console.ReadKey().Key == ConsoleKey.Y)
+                            switch (((Armor)list[i]).Slot)
                             {
-                                switch (((Armor)list[i]).Slot)
-                                {
-                                    case ArmorSlot.Head:
-                                        player.Head = (Armor)list[i];
-                                        break;
+                                case ArmorSlot.Head:
+                                    player.Head = (Armor)list[i];
+                                    break;
 
-                                    case ArmorSlot.Chest:
-                                        player.Chest = (Armor)list[i];
-                                        break;
+                                case ArmorSlot.Chest:
+                                    player.Chest = (Armor)list[i];
+                                    break;
 
-                                    case ArmorSlot.Legs:
-                                        player.Legs = (Armor)list[i];
-                                        break;
-                                }
-                            }
-                            else
-                            {
-                                player.Inventory.Add(list[i]);
+                                case ArmorSlot.Legs:
+                                    player.Legs = (Armor)list[i];
+                                    break;
                             }
                         }
+                        else
+                        {
+                            player.Inventory.Add(list[i]);
+                        }
+                        Console.Clear();
                     }
                 }
             }
@@ -306,7 +299,7 @@ namespace Instance
 
             return list;
 
-        }
+        }//end CreateChest()
 
         public static void SortInventory(List<Item> list)
         {
@@ -329,7 +322,7 @@ namespace Instance
                 }
             }
 
-        }
+        }//end SortInventory()
 
     }//end class
 }//end namespace
