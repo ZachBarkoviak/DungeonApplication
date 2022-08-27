@@ -84,7 +84,7 @@ namespace DungeonLibrary
 
                 case PlayerRace.Orc:
                     HitChance -= 4;
-                    Block += 5;
+                    Block += 2;
                     break;
 
                 case PlayerRace.Human:
@@ -98,7 +98,7 @@ namespace DungeonLibrary
 
                 case PlayerRace.Tiefling:
                     HitChance += 5;
-                    Block += 2;
+                    Block += 1;
                     break;
                 #region Secrets
                 case PlayerRace.Developer:
@@ -112,7 +112,7 @@ namespace DungeonLibrary
                 case PlayerClass.Barbarian:
                     MaxHealth += 10;
                     Health += 10;
-                    Block += 5;
+                    Block += 2;
                     break;
 
                 case PlayerClass.Rogue:
@@ -236,6 +236,25 @@ namespace DungeonLibrary
         {            
             return new Random().Next(UserWeapon.MinDamage, UserWeapon.MaxDamage + 1);
         }//end CalcDamage();    
+
+        public override int CalcBlock()
+        {
+            int totalBlock = Block;
+            if (Head != null)
+            {
+                totalBlock += Head.AttributeBonus;
+            }
+            if (Chest != null)
+            {
+                totalBlock += Chest.AttributeBonus;
+            }
+            if (Legs != null)
+            {
+                totalBlock += Legs.AttributeBonus;
+            }
+            return totalBlock;
+        }
+
 
         public List<Item> GetInventory()
         {

@@ -19,17 +19,21 @@ namespace Instance
             Console.Clear();
             Player hero = Builder.MakePlayer();
             Console.Clear();
-
+            //Player hero = new Player();
+            //CombatTesting(hero, 10);////////////////////////////////////////////////COMBAT TESTING
+            //Console.ReadLine();
             bool worldExit = false;
-            int roomCount = 1;            
+            int roomCount = 1;
             Console.WriteLine("\n\nPress a key to enter the first room... ");
             Console.ReadKey(true);
             do
             {
                 Room room = new Room(roomCount);
                 bool encounterExit = false;
-                Console.Clear();  
+                Console.Clear();
                 Console.WriteLine(room);
+                room.HasChest = true;//TODO REMOVE CHEST HARD CODE
+                room.IsTrapped = false;
                 do
                 {
                     Console.WriteLine("Chest: " + room.HasChest);
@@ -51,7 +55,7 @@ namespace Instance
                         case ConsoleKey.A:
                             Console.Clear();
                             Builder.Battle(hero, room.RoomMonster);
-                            if(room.RoomMonster.Health <= 0)
+                            if (room.RoomMonster.Health <= 0)
                             {
                                 roomCount++;
                                 Console.ForegroundColor = ConsoleColor.Green;
@@ -63,18 +67,15 @@ namespace Instance
                                     {
                                         //TODO handle if the chest is trapped or not. maybe a mini game or something to disarm it
                                     }
-                                    else
-                                    {
-                                         //TODO roll prize table
-                                        Console.WriteLine("You find a chest! Inside there is: \n");
-                                        Builder.ItemSelect(Builder.CreateChest(), hero);
-                                    }
+                                    //TODO roll prize table
+                                    Console.WriteLine("You find a chest! Inside there is: \n");
+                                    Builder.ItemSelect(Builder.CreateChest(), hero);
                                 }
                                 Console.WriteLine("Press and key to enter the next room...");
                                 Console.ReadKey(true);
                                 encounterExit = true;
                             }
-                            else if (hero.Health <=0)
+                            else if (hero.Health <= 0)
                             {
                                 Console.WriteLine("You DIED!");
                                 worldExit = true;
@@ -138,7 +139,7 @@ namespace Instance
                             Console.WriteLine("Inv count: " + hero.Inventory.Count());
                             Console.ReadKey();
                             Builder.SortInventory(hero.Inventory);
-                            Console.WriteLine("Inv count after sort: " + hero.Inventory.Count());                            
+                            Console.WriteLine("Inv count after sort: " + hero.Inventory.Count());
                             hero.DisplayInventory();
                             Console.ReadLine();
                             break;
@@ -147,11 +148,11 @@ namespace Instance
                             Console.Clear();
                             break;
                     }
-                    
+
                 } while (!encounterExit && !worldExit);//end Encounter while
             } while (!worldExit); //end World DoWhile
 
-            string goodbye = $"Thanks for playing! You made it through {roomCount-1} room{((roomCount-1 > 1 || roomCount-1 == 0) ? "s." : ".")}";
+            string goodbye = $"Thanks for playing! You made it through {roomCount - 1} room{((roomCount - 1 > 1 || roomCount - 1 == 0) ? "s." : ".")}";
             foreach (char character in goodbye)
             {
                 Console.Write(character);
@@ -216,59 +217,84 @@ namespace Instance
             return worldExit;
         }//end Encounter()    //PROBABLY WONT USE
 
-        static Monster MakeRoom() //TODO PHASE OUT FOR CUSTOM ROOM CLASS CreateRoom()
+        static void CombatTesting(Player player, int cycles)
         {
-            Random rand = new Random();
-            string[] size = { "small", "medium", "large" };
-            string[] vibe = { "foul", "musty", "dark", };
-            string[] vibe2 = { "gloomy", "uncomfortable", "dismal" };
-            string adjSize = size[rand.Next(3)];
-            string adj1 = vibe[rand.Next(3)];
-            string adj2 = vibe2[rand.Next(3)];
-            int monsterCount = rand.Next(1, 4);
-            bool plural = false;
-            Monster monster = new Monster();
-            //MonsterDraft[] monster = new MonsterDraft[monsterCount];
-            //for (int i = 0; i < monster.Length; i++)
-            //{
-            //    monster[i] = new MonsterDraft();
-            //}
-            //for (int i = 0; i < monster.Length; i++)
-            //{
-                string monName = "";
-                switch (rand.Next(4))
+            int playerWins = 0, monsterWins = 0;
+            for (int i = 0; i < cycles; i++)
+            {
+                Monster monster = Monster.GetMonster();
+                Player hero = player;
+                do
                 {
-                    case 0:
-                        monName = "Goblin";
-                        break;
+                    Builder.Battle(hero, monster);
+                } while (monster.Health > 0 && hero.Health > 0);
+                if (monster.Health !> 0)
+                {
+                    playerWins++;
+                }
+                else
+                {
+                    monsterWins++;
+                }
+                Console.Clear();
+                Console.WriteLine($"Player wins: {playerWins}\tMonster wins: {monsterWins}");
+            }
+        }//end CombatTesting()
 
-                    case 1:
-                        monName = "Spider";
-                        break;
 
-                    case 2:
-                        monName = "Skeleton";
-                        break;
+        //static Monster MakeRoom() //DONE PHASE OUT FOR CUSTOM ROOM CLASS CreateRoom()
+        //{
+        //    Random rand = new Random();
+        //    string[] size = { "small", "medium", "large" };
+        //    string[] vibe = { "foul", "musty", "dark", };
+        //    string[] vibe2 = { "gloomy", "uncomfortable", "dismal" };
+        //    string adjSize = size[rand.Next(3)];
+        //    string adj1 = vibe[rand.Next(3)];
+        //    string adj2 = vibe2[rand.Next(3)];
+        //    int monsterCount = rand.Next(1, 4);
+        //    bool plural = false;
+        //    Monster monster = new Monster();
+        //    //MonsterDraft[] monster = new MonsterDraft[monsterCount];
+        //    //for (int i = 0; i < monster.Length; i++)
+        //    //{
+        //    //    monster[i] = new MonsterDraft();
+        //    //}
+        //    //for (int i = 0; i < monster.Length; i++)
+        //    //{
+        //    string monName = "";
+        //    switch (rand.Next(4))
+        //    {
+        //        case 0:
+        //            monName = "Goblin";
+        //            break;
 
-                    case 3:
-                        monName = "Zombie";
-                        break;
+        //        case 1:
+        //            monName = "Spider";
+        //            break;
 
-                    //case 4:
-                    //    break;
+        //        case 2:
+        //            monName = "Skeleton";
+        //            break;
 
-                }//end monster select switch
-                monster.Name = monName;
-            //}
-            //if (monsterCount > 1)
-            //{
-            //    plural = true;
-            //}//end if plural
-            //Console.WriteLine($"You find yourself in a {adjSize}, {adj1}, {adj2} room. There {(plural ? "are" : "is")} {monsterCount} Monster{(plural ? "s" : "")} in the room.\n" +
-            //    $"You see a {monster[0].Name}{(monster.Length == 2 ? $", and a {(monster.Length == 3 ? $"{monster[1].Name} and a {monster[2].Name}" : $"{monster[1].Name}")}" : ".")}");
-            Console.WriteLine($"You find yourself in a {adjSize}, {adj1}, {adj2} room. You see a {monster.Name} in the corner");
-            return monster;
-        }//end MakeRoom()
+        //        case 3:
+        //            monName = "Zombie";
+        //            break;
+
+        //            //case 4:
+        //            //    break;
+
+        //    }//end monster select switch
+        //    monster.Name = monName;
+        //    //}
+        //    //if (monsterCount > 1)
+        //    //{
+        //    //    plural = true;
+        //    //}//end if plural
+        //    //Console.WriteLine($"You find yourself in a {adjSize}, {adj1}, {adj2} room. There {(plural ? "are" : "is")} {monsterCount} Monster{(plural ? "s" : "")} in the room.\n" +
+        //    //    $"You see a {monster[0].Name}{(monster.Length == 2 ? $", and a {(monster.Length == 3 ? $"{monster[1].Name} and a {monster[2].Name}" : $"{monster[1].Name}")}" : ".")}");
+        //    Console.WriteLine($"You find yourself in a {adjSize}, {adj1}, {adj2} room. You see a {monster.Name} in the corner");
+        //    return monster;
+        //}//end MakeRoom()
 
         /*static Player MakePlayer()
         {
