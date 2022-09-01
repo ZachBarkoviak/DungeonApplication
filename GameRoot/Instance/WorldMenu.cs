@@ -13,8 +13,58 @@ namespace Instance
     {
         static void Main(string[] args)
         {
-            Console.Title = "The Dungeon of Fungeon";
-            Console.WriteLine("Welcome to the Dungeon!\nPress any key to start creating your character...");
+            Console.Title = "The Dungeon Of The Deep";
+            Console.WriteLine(@"
+           _..--''---.
+          /           '.      ____________________
+          `            l     |'Hey Kid, You lost?'|
+          |'._  ,._ l/'\     |____________________|
+          |  _J<__/.v._/     /
+           \( ,~._,,,,-)    /     
+            `-\' \`,,j|       
+               \_,____J
+          .--.__)--(__.--.
+         /  `-----..--'. j
+         '.- '`--` `--' \\
+        //  '`---'`  `-' \\
+       //   '`----'`.-.-' \\
+     _//     `--- -'   \' | \________
+    |  |         ) (      `.__.---- -'\
+     \7          \`-(               74\\\
+     ||       _  /`-(               l|//7__
+     |l    ('  `-)-/_.--.          f''` -.-'|
+     |\     l\_  `-'    .'         |     |  |
+     llJ   _ _)J--._.-('           |     |  l
+     |||( ( '_)_  .l   '. _    ..__I     |  L
+     ^\\\||`'   '   ''-. ' )''`'---'     L.-'`-.._
+          \ |           ) /.              ``'`-.._``-.
+          l l          / / |                      |''|
+           ' \        / /   '-..__                |  |
+           | |       / /          1       ,- t-...J_.'
+           | |      / /           |       |  |
+           J  \  /'  (            l       |  |
+           | ().'`-()/            |       |  |
+          _.-'_.____/             l       l.-l
+      _.-'_.+'|                  /        \.  \
+/'\.-'_.-'  | |                 /          \   \
+\_   '      | |                1            | `'|
+  |ll       | |                |            i   |
+  \\\       |-\               \j ..          L,,'. `/
+ __\\\     ( .-\           .--'    ``--../..'      '-..
+   `'''`----`\\\\ .....--'''
+              \\\\                           ");
+            Console.WriteLine(@"
+         88                                                             
+         88                                                             
+         88                                                             
+ ,adPPYb,88 88       88 8b,dPPYba,   ,adPPYb,d8  ,adPPYba,  ,adPPYba,   8b,dPPYba,   
+a8'    `Y88 88       88 88P'   `'8a a8'    `Y88 a8P_____88 a8'     '8a  88P'   `'8a  
+8b       88 88       88 88       88 8b       88 8PP''''''' 8b       d8  88       88  
+'8a,   ,d88 '8a,   ,a88 88       88 '8a,   ,d88 '8b,   ,aa '8a,   ,a8'  88       88  
+ `'8bbdP'Y8  `'YbbdP'Y8 88       88  `'YbbdP'Y8  `'Ybbd8''  `'YbbdP''   88       88  
+                                     aa,    ,88                         
+                                      'Y8bbdP'     ");
+            Console.ReadLine();
             Console.ReadKey(true);
             Console.Clear();
             Player hero = Builder.MakePlayer();
