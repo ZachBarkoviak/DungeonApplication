@@ -64,7 +64,6 @@ a8'    `Y88 88       88 88P'   `'8a a8'    `Y88 a8P_____88 a8'     '8a  88P'   `
  `'8bbdP'Y8  `'YbbdP'Y8 88       88  `'YbbdP'Y8  `'Ybbd8''  `'YbbdP''   88       88  
                                      aa,    ,88                         
                                       'Y8bbdP'     ");
-            Console.ReadLine();
             Console.ReadKey(true);
             Console.Clear();
             Player hero = Builder.MakePlayer();
